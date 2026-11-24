@@ -2,7 +2,7 @@
 
 **A persistor is the unit of change. It is one cycle that creates the structure for the next cycle to build on.** Everything that persists is a persistor. A cell, an immune response, a team, a company and a career are all persistors, and every persistor contains persistors and sits inside one.
 
-The same concept appears under three names. **Persistor** is the name used on this site. **Change Unit** is the name used in the [canon reference](canon.md). **Quadragen** names its four-part form.
+The same concept appears under three names. **Persistor** is the name used on this site. **Change Unit** and **Quadragen** are the same concept in other shapes.
 
 ## One moment, four faces
 
@@ -53,4 +53,6 @@ The definition, the axioms, the forced order and the recursion rules are structu
 
 ## Read further
 
-- [canon.md](canon.md) is the full canon reference. It covers the formal core, all recursion rules R1 to R13, the five dimensions, the three speeds, the structural failure rate, and an honest list of open seams. It is a working reference, dated where results changed, and it keeps its test history in place.
+- [spec.md](spec.md) is the full specification: axioms, regime types, thresholds, the formal core, recursion rules R1 to R13, the five dimensions, the three speeds, the substrate economy, the sixteen verbs, and the open seams. Every statement carries its status.
+- [HISTORY.md](HISTORY.md) holds the dated corrections and tests.
+- [archive/](archive/) holds the May 2026 working reference.
