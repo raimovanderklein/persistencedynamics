@@ -17,13 +17,10 @@ Site: [persistencedynamics.com](https://persistencedynamics.com) (coming).
 | [`papers/`](papers/) | Papers by the author | Preprints |
 | [`figures/`](figures/) | Figures and interactive visuals | |
 | [`brand/`](brand/) | Colours, regime positions, type | Canon |
-| [`applications/`](applications/) | The layers built on the theory: Palintropy, the operating layer, and Encounter, which applies it to cancer | Not part of the theory |
 
-## Three layers
+## Scope
 
-1. **Persistence Dynamics** is the hard core theory, and it is what this repo holds.
-2. **Palintropy** is the operating layer: a way to work according to the theory, with its work protocol (PWP).
-3. **Encounter** applies Palintropy to the cancer domain.
+This repo and its site cover Persistence Dynamics only. Systems built on the theory, such as Palintropy and Encounter, have their own homes.
 
 ## Terms
 

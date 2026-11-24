@@ -8,7 +8,3 @@
 
 ## The Change Unit
 - [Change Unit canon](https://persistencedynamics.com/change-unit/): axioms, formal core, recursion rules
-
-## Built on the theory
-- [Palintropy and the PWP](https://persistencedynamics.com/applications/palintropy/): the operating layer, a work protocol for people and AI agents
-- [Encounter](https://persistencedynamics.com/applications/encounter/): Palintropy applied to cancer
