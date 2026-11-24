@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Change Unit · Generative Identity v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Inter+Tight:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>
+  :root {
+    --grey: #4D4843;
+    --observer: #2E5E3A;
+    --pot: #1B5BD8;
+    --construction: #B77800;
+    --encounter: #D63A1F;
+    --conservation: #924D35;
+    --paper: #F5F1EA;
+    --ink: #1C1C1C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter Tight', system-ui, sans-serif; min-height: 100vh; }
+
+  .root { max-width: 1500px; margin: 0 auto; padding: 48px 56px 80px; }
+
+  .header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #d8d0c0; padding-bottom: 28px; }
+  .title { font-family: 'Familjen Grotesk', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.025em; line-height: 1; }
+  .title em { font-style: italic; font-weight: 500; color: var(--grey); font-size: 28px; }
+  .subtitle { font-size: 12px; color: var(--grey); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .palette { margin: 0 0 24px; display: flex; gap: 0; height: 36px; border: 1px solid #d8d0c0; }
+  .palette-cell { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: white; letter-spacing: 0.05em; }
+
+  .algorithms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 11px; margin-bottom: 28px; }
+  .algo-cell { padding: 14px 16px; background: white; border: 1px solid #d8d0c0; font-family: 'JetBrains Mono', monospace; }
+  .algo-cell h4 { font-family: 'Familjen Grotesk', sans-serif; font-size: 12px; margin-bottom: 6px; font-weight: 700; }
+  .algo-cell p { color: var(--grey); line-height: 1.5; font-size: 10px; }
+  .algo-cell .alg { color: var(--ink); font-weight: 500; margin-top: 6px; display: block; font-size: 10px; }
+
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: start; }
+
+  .controls { background: white; border: 1px solid #d8d0c0; padding: 24px; position: sticky; top: 20px; }
+  .controls h3 { font-family: 'Familjen Grotesk', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; color: var(--grey); }
+  .control { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+  .control label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--grey); font-family: 'JetBrains Mono', monospace; }
+  .control select, .control input[type="range"] {
+    width: 100%; padding: 7px 9px; border: 1px solid #c8bfae; background: var(--paper);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink);
+  }
+  .control .value { font-size: 10px; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .btn-row { display: flex; gap: 8px; margin-top: 18px; }
+  .btn { flex: 1; padding: 11px 12px; border: none; background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; cursor: pointer; text-transform: uppercase; transition: background 0.15s; }
+  .btn:hover { background: var(--encounter); }
+  .btn-primary { background: var(--encounter); }
+  .btn-primary:hover { background: var(--pot); }
+  .btn-secondary { background: var(--pot); }
+  .btn-secondary:hover { background: var(--ink); }
+
+  .stage-wrap { background: white; border: 1px solid #d8d0c0; aspect-ratio: 1; position: relative; overflow: hidden; }
+  #stage { width: 100%; height: 100%; }
+  #stage canvas { display: block; width: 100% !important; height: 100% !important; }
+  .stage-meta { position: absolute; bottom: 14px; left: 16px; right: 16px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--grey); pointer-events: none; letter-spacing: 0.05em; }
+
+  .gallery { margin-top: 40px; }
+  .gallery h3 { font-family: 'Familjen Grotesk', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; color: var(--grey); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .gallery-cell { background: white; border: 1px solid #d8d0c0; aspect-ratio: 1; cursor: pointer; transition: transform 0.15s, border-color 0.15s; position: relative; overflow: hidden; }
+  .gallery-cell:hover { transform: translateY(-2px); border-color: var(--ink); }
+  .gallery-cell canvas { display: block; width: 100% !important; height: 100% !important; }
+  .gallery-cell .caption { position: absolute; bottom: 6px; left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink); background: rgba(255,255,255,0.92); padding: 3px 6px; letter-spacing: 0.03em; }
+
+  .footer-note { margin-top: 48px; padding-top: 28px; border-top: 1px solid #d8d0c0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--grey); line-height: 1.7; max-width: 880px; }
+  .footer-note strong { color: var(--ink); }
+  .footer-note a { color: var(--pot); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="root">
+  <div class="header">
+    <div>
+      <div class="title">The Change Unit <em>· generative identity v4</em></div>
+      <div style="margin-top:8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--grey); letter-spacing: 0.05em;">repetition as counterweight to chaos · Encounter rebuilt</div>
+    </div>
+    <div class="subtitle">Encounter brand canon v47</div>
+  </div>
+
+  <div class="palette">
+    <div class="palette-cell" style="background:var(--pot)">POT · #1B5BD8</div>
+    <div class="palette-cell" style="background:var(--construction)">CONSTRUCTION · #B77800</div>
+    <div class="palette-cell" style="background:var(--encounter)">ENCOUNTER · #D63A1F</div>
+    <div class="palette-cell" style="background:var(--conservation)">CONSERVATION · #924D35</div>
+    <div class="palette-cell" style="background:var(--observer)">OBSERVER · #2E5E3A</div>
+    <div class="palette-cell" style="background:var(--grey)">WORDMARK · #4D4843</div>
+  </div>
+
+  <div class="algorithms">
+    <div class="algo-cell" style="border-top:5px solid var(--pot)">
+      <h4>POT · Capacitor field</h4>
+      <p>Many capacitors loading at different levels. Bridson packing.</p>
+      <span class="alg">algorithm: stochastic circle packing</span>
+    </div>
+    <div class="algo-cell" style="border-top:5px solid var(--construction)">
+      <h4>CONSTRUCTION · Factory</h4>
+      <p>Mondrian/Bendotk subdivision. Selection pressure weights survival.</p>
+      <span class="alg">algorithm: recursive rectangular subdivision</span>
+    </div>
+    <div class="algo-cell" style="border-top:5px solid var(--encounter)">
+      <h4>ENCOUNTER · Reactor</h4>
+      <p>Golid Archetype: partition → grid → repeated partition. Repetition is the intentionality.</p>
+      <span class="alg">algorithm: archetype (Golid 2021)</span>
+    </div>
+    <div class="algo-cell" style="border-top:5px solid var(--conservation)">
+      <h4>CONSERVATION · Homeostat</h4>
+      <p>Vector field holds curves on trajectories. Setpoint against perturbation.</p>
+      <span class="alg">algorithm: flow field (Hobbs / Perlin)</span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <div class="controls">
+      <h3>Inputs</h3>
+
+      <div class="control">
+        <label>Regime</label>
+        <select id="regime">
+          <option value="pot">Pot · circle packing</option>
+          <option value="construction">Construction · subdivision</option>
+          <option value="encounter" selected>Encounter · archetype</option>
+          <option value="conservation">Conservation · flow field</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label>Sub-position (1-16)</label>
+        <input type="range" id="subpos" min="1" max="16" value="11" />
+        <div class="value" id="subposVal">P11 · E/sub-E · consume</div>
+      </div>
+
+      <div class="control">
+        <label>Recursion depth (1-5)</label>
+        <input type="range" id="depth" min="1" max="5" value="3" />
+        <div class="value" id="depthVal">L3 · occurrence</div>
+      </div>
+
+      <div class="control">
+        <label>Substrate richness (1-10)</label>
+        <input type="range" id="richness" min="1" max="10" value="6" />
+        <div class="value" id="richnessVal">6 · medium-rich</div>
+      </div>
+
+      <div class="control">
+        <label>Seed</label>
+        <div class="value" id="seedVal">—</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="reseed">Reseed</button>
+        <button class="btn btn-primary" id="randomize">Random</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="download">Download PNG</button>
+      </div>
+    </div>
+
+    <div style="position: relative;">
+      <div class="stage-wrap">
+        <div id="stage"></div>
+      </div>
+      <div class="stage-meta" id="stageMeta"></div>
+    </div>
+
+  </div>
+
+  <div class="gallery">
+    <h3>Family — eight outputs across the four algorithms</h3>
+    <div class="gallery-grid" id="gallery"></div>
+  </div>
+
+  <div class="footer-note">
+    <strong>The Encounter algorithm.</strong> Golid's Archetype procedure (2021): (1) partition a rectangle into sections; (2) divide each section into an equal-sized grid; (3) within each section, apply the same partition pattern to every cell. The repetition is what makes the chaos legible — random shapes alone read as noise; the same random shape tiled across a section reads as intentional. Encounter is the regime where cycles meet, and the meeting is shaped by the grid that contains it.<br><br>
+    <strong>References.</strong> <a href="https://kjetil-golid.medium.com/archetype-101-2f17633dcc86">Archetype 101 (Golid)</a>. <a href="https://generativeartistry.com/tutorials/circle-packing/">Circle packing</a>. <a href="https://bendotk.com/writing/the-making-of-inertia">Rectangular subdivision (Bendotk)</a>. <a href="https://www.tylerxhobbs.com/words/flow-fields">Flow fields (Hobbs)</a>.<br><br>
+    <strong>Citation.</strong> Generative Geometry (van der Klein, 2026). · Encounter brand canon v47.
+  </div>
+
+</div>
+
+<script>
+// ===========================================================================
+// COLORS — six only
+// ===========================================================================
+const COLORS = {
+  pot: '#1B5BD8',
+  construction: '#B77800',
+  encounter: '#D63A1F',
+  conservation: '#924D35',
+  observer: '#2E5E3A',
+  grey: '#4D4843',
+  paper: '#F5F1EA',
+  ink: '#1C1C1C'
+};
+const REGIME_COLORS = [COLORS.pot, COLORS.construction, COLORS.encounter, COLORS.conservation];
+
+const subposLabels = [
+  'P1 · Pot/sub-Pot · absorb', 'P2 · Pot/sub-C · sort', 'P3 · Pot/sub-E · release', 'P4 · Pot/sub-Co · discharge',
+  'P5 · C/sub-Pot · gather', 'P6 · C/sub-C · shape', 'P7 · C/sub-E · test', 'P8 · C/sub-Co · finalise',
+  'P9 · E/sub-Pot · approach', 'P10 · E/sub-C · engage', 'P11 · E/sub-E · consume', 'P12 · E/sub-Co · deposit',
+  'P13 · Co/sub-Pot · store', 'P14 · Co/sub-C · consolidate', 'P15 · Co/sub-E · maintain', 'P16 · Co/sub-Co · hand off'
+];
+const depthLabels = ['L1 · identity', 'L2 · other', 'L3 · occurrence', 'L4 · ordering', 'L5 · persistence'];
+
+let state = {
+  regime: 'encounter',
+  subpos: 11,
+  depth: 3,
+  richness: 6,
+  seed: Math.floor(Math.random() * 1000000)
+};
+
+let mainSketch = null;
+
+function makeSketch(target, s) {
+  return new p5(function(p) {
+    p.setup = function() {
+      const w = target.offsetWidth || 600;
+      const cnv = p.createCanvas(w, w);
+      cnv.parent(target);
+      p.pixelDensity(2);
+      p.noLoop();
+      drawRegime(p, s);
+    };
+    p.regenerate = function(newState) {
+      Object.assign(s, newState);
+      const w = target.offsetWidth || 600;
+      p.resizeCanvas(w, w);
+      drawRegime(p, s);
+    };
+  });
+}
+
+function drawRegime(p, s) {
+  p.randomSeed(s.seed);
+  p.noiseSeed(s.seed);
+  p.background(COLORS.paper);
+
+  switch (s.regime) {
+    case 'pot': drawPot(p, s); break;
+    case 'construction': drawConstruction(p, s); break;
+    case 'encounter': drawEncounter(p, s); break;
+    case 'conservation': drawConservation(p, s); break;
+  }
+}
+
+// ===========================================================================
+// POT — Bridson circle packing
+// ===========================================================================
+function drawPot(p, s) {
+  const W = p.width;
+  const minR = W * 0.012;
+  const maxR = W * 0.10;
+  const targetCount = 30 + s.richness * 25;
+  const maxAttempts = 1500;
+
+  const circles = [];
+  let attempts = 0;
+  while (circles.length < targetCount && attempts < maxAttempts) {
+    attempts++;
+    const tryR = p.random(minR, maxR) * (1 - circles.length / (targetCount * 1.5));
+    const tryX = p.random(tryR, W - tryR);
+    const tryY = p.random(tryR, W - tryR);
+
+    let ok = true;
+    for (const c of circles) {
+      const d = p.dist(tryX, tryY, c.x, c.y);
+      if (d < tryR + c.r + 2) { ok = false; break; }
+    }
+    if (ok) {
+      const meanFill = s.subpos / 16;
+      const fillVariance = 0.35;
+      const fill = p.constrain(meanFill + p.random(-fillVariance, fillVariance), 0, 1);
+      circles.push({ x: tryX, y: tryY, r: Math.max(minR, tryR), fill });
+    }
+  }
+
+  for (let i = 1; i < s.depth; i++) {
+    const r = W * (0.46 - i * 0.04);
+    p.noFill();
+    p.stroke(COLORS.pot);
+    p.strokeWeight(0.6);
+    p.drawingContext.globalAlpha = 0.25 - i * 0.03;
+    p.circle(W/2, W/2, r * 2);
+  }
+  p.drawingContext.globalAlpha = 1;
+
+  circles.sort((a, b) => b.r - a.r);
+  for (const c of circles) {
+    p.noFill();
+    p.stroke(COLORS.pot);
+    p.strokeWeight(1.2);
+    p.circle(c.x, c.y, c.r * 2);
+
+    if (c.fill > 0.02) {
+      p.push();
+      p.drawingContext.save();
+      p.drawingContext.beginPath();
+      p.drawingContext.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+      p.drawingContext.clip();
+      const fillH = c.r * 2 * c.fill;
+      p.noStroke();
+      p.fill(COLORS.pot);
+      p.rect(c.x - c.r, c.y + c.r - fillH, c.r * 2, fillH);
+      p.drawingContext.restore();
+      p.pop();
+    }
+
+    if (c.fill > 0.88) {
+      p.noFill();
+      p.stroke(COLORS.ink);
+      p.strokeWeight(1.6);
+      p.circle(c.x, c.y, c.r * 2);
+    }
+  }
+}
+
+// ===========================================================================
+// CONSTRUCTION — recursive subdivision
+// ===========================================================================
+function drawConstruction(p, s) {
+  const W = p.width;
+  const margin = W * 0.05;
+  const minSize = W * (0.18 - s.richness * 0.011);
+
+  const rects = [];
+  subdivideRect(p, margin, margin, W - margin * 2, W - margin * 2, 0, s.depth + 4, minSize, rects);
+
+  const selPressure = s.subpos / 16;
+
+  for (const r of rects) {
+    const rv = p.random();
+    const isLarge = (r.w * r.h) > (W * W * 0.04);
+    const isMed = !isLarge && (r.w * r.h) > (W * W * 0.012);
+
+    let fill;
+    if (isLarge) {
+      if (rv < 0.6 + selPressure * 0.3) fill = COLORS.construction;
+      else if (rv < 0.85) fill = COLORS.grey;
+      else fill = COLORS.paper;
+    } else if (isMed) {
+      if (rv < 0.35) fill = COLORS.construction;
+      else if (rv < 0.5) fill = COLORS.observer;
+      else if (rv < 0.7) fill = COLORS.grey;
+      else fill = COLORS.paper;
+    } else {
+      if (rv < 0.12) fill = COLORS.construction;
+      else if (rv < 0.25) fill = COLORS.observer;
+      else if (rv < 0.45) fill = COLORS.grey;
+      else fill = COLORS.paper;
+    }
+
+    p.noStroke();
+    p.fill(fill);
+    p.rect(r.x, r.y, r.w, r.h);
+    p.stroke(COLORS.ink);
+    p.strokeWeight(0.6);
+    p.noFill();
+    p.rect(r.x, r.y, r.w, r.h);
+
+    if (fill === COLORS.construction && isLarge && p.random() < 0.5) {
+      const radius = Math.min(r.w, r.h);
+      const corner = Math.floor(p.random(4));
+      p.noFill();
+      p.stroke(COLORS.paper);
+      p.strokeWeight(1.4);
+      if (corner === 0) p.arc(r.x, r.y, radius * 2, radius * 2, 0, Math.PI / 2);
+      else if (corner === 1) p.arc(r.x + r.w, r.y, radius * 2, radius * 2, Math.PI / 2, Math.PI);
+      else if (corner === 2) p.arc(r.x + r.w, r.y + r.h, radius * 2, radius * 2, Math.PI, Math.PI * 1.5);
+      else p.arc(r.x, r.y + r.h, radius * 2, radius * 2, Math.PI * 1.5, Math.PI * 2);
+    }
+  }
+}
+
+function subdivideRect(p, x, y, w, h, gen, maxGen, minSize, output) {
+  if (gen >= maxGen || (w < minSize && h < minSize)) {
+    output.push({ x, y, w, h, gen });
+    return;
+  }
+  const splitHoriz = p.random() < h / (w + h);
+  if (splitHoriz) {
+    const cut = p.random(0.35, 0.65);
+    const h1 = h * cut;
+    subdivideRect(p, x, y, w, h1, gen + 1, maxGen, minSize, output);
+    subdivideRect(p, x, y + h1, w, h - h1, gen + 1, maxGen, minSize, output);
+  } else {
+    const cut = p.random(0.35, 0.65);
+    const w1 = w * cut;
+    subdivideRect(p, x, y, w1, h, gen + 1, maxGen, minSize, output);
+    subdivideRect(p, x + w1, y, w - w1, h, gen + 1, maxGen, minSize, output);
+  }
+}
+
+// ===========================================================================
+// ENCOUNTER — GOLID ARCHETYPE PROCEDURE
+// ===========================================================================
+// 1. Partition canvas into sections (random rect partition)
+// 2. Divide each section into a grid of equal-sized cells
+// 3. Generate ONE partition pattern per section; apply to EVERY cell
+// 4. Fill cells with regime-coloured curved shapes following the pattern
+//
+// Subpos drives how many sections (layout: Order/Balance/Chaos = 1/3-6/8-12)
+// Richness drives grid density per section
+// Depth drives complexity of the sub-cell partition
+// ===========================================================================
+function drawEncounter(p, s) {
+  const W = p.width;
+  const margin = W * 0.04;
+  const inner = W - margin * 2;
+
+  // Step 1: partition canvas into N sections
+  // Subpos: low = Order (few big sections); high = Chaos (many small)
+  const sectionTarget = Math.max(1, Math.floor(1 + (s.subpos - 1) * 0.6)); // 1-10 sections
+  const sections = partitionRect(p, margin, margin, inner, inner, sectionTarget);
+
+  // For each section, do steps 2 + 3
+  for (const sec of sections) {
+    // Step 2: divide section into grid of cells
+    // Grid size driven by richness; cells must be roughly square
+    const gridDensity = 2 + Math.floor(s.richness * 0.6); // 3-8 cells per axis target
+    const cellsX = Math.max(2, Math.round(sec.w / sec.h * gridDensity / 2));
+    const cellsY = Math.max(2, Math.round(sec.h / sec.w * gridDensity / 2));
+    const cellW = sec.w / cellsX;
+    const cellH = sec.h / cellsY;
+
+    // Step 3: ONE cell-partition pattern for this whole section
+    // The pattern is a list of sub-rects within a unit cell, each carrying:
+    // - shape type (arch type)
+    // - regime color index
+    // - rotation
+    const pattern = generateCellPattern(p, s.depth);
+
+    // Pick a section accent color — one of the four regimes dominates this section
+    const sectionRegimeIdx = Math.floor(p.random(4));
+
+    // Apply pattern to every cell in this section
+    for (let cy = 0; cy < cellsY; cy++) {
+      for (let cx = 0; cx < cellsX; cx++) {
+        const x = sec.x + cx * cellW;
+        const y = sec.y + cy * cellH;
+        drawCellPattern(p, x, y, cellW, cellH, pattern, sectionRegimeIdx);
+      }
+    }
+
+    // Section outline (frame, optional based on richness)
+    if (s.richness >= 4) {
+      p.noFill();
+      p.stroke(COLORS.ink);
+      p.strokeWeight(0.5);
+      p.rect(sec.x, sec.y, sec.w, sec.h);
+    }
+  }
+}
+
+// Recursive rectangle partition into N sections (approximately)
+function partitionRect(p, x, y, w, h, targetSections) {
+  const sections = [{ x, y, w, h }];
+  while (sections.length < targetSections) {
+    // Pick the largest section to split
+    sections.sort((a, b) => (b.w * b.h) - (a.w * a.h));
+    const sec = sections.shift();
+    // Split it
+    const splitHoriz = p.random() < sec.h / (sec.w + sec.h);
+    const cut = p.random(0.3, 0.7);
+    if (splitHoriz) {
+      const h1 = sec.h * cut;
+      sections.push({ x: sec.x, y: sec.y, w: sec.w, h: h1 });
+      sections.push({ x: sec.x, y: sec.y + h1, w: sec.w, h: sec.h - h1 });
+    } else {
+      const w1 = sec.w * cut;
+      sections.push({ x: sec.x, y: sec.y, w: w1, h: sec.h });
+      sections.push({ x: sec.x + w1, y: sec.y, w: sec.w - w1, h: sec.h });
+    }
+  }
+  return sections;
+}
+
+// Generate ONE cell partition pattern — sub-rectangles within a unit cell
+// Each sub-rect carries a shape type and a regime-index.
+// Depth drives the partition's complexity.
+function generateCellPattern(p, depth) {
+  // Start with the unit cell [0,1] x [0,1]
+  const subs = [{ x: 0, y: 0, w: 1, h: 1, depth: 0 }];
+  const maxDepth = depth + 1; // 2-6
+  const targetSubs = 3 + depth * 2; // 5-13
+
+  while (subs.length < targetSubs) {
+    let splitIdx = -1;
+    let maxArea = 0;
+    for (let i = 0; i < subs.length; i++) {
+      if (subs[i].depth >= maxDepth) continue;
+      const a = subs[i].w * subs[i].h;
+      if (a > maxArea) { maxArea = a; splitIdx = i; }
+    }
+    if (splitIdx < 0) break;
+
+    const r = subs.splice(splitIdx, 1)[0];
+    const splitHoriz = p.random() < r.h / (r.w + r.h);
+    const cut = p.random(0.35, 0.65);
+    if (splitHoriz) {
+      subs.push({ x: r.x, y: r.y, w: r.w, h: r.h * cut, depth: r.depth + 1 });
+      subs.push({ x: r.x, y: r.y + r.h * cut, w: r.w, h: r.h * (1 - cut), depth: r.depth + 1 });
+    } else {
+      subs.push({ x: r.x, y: r.y, w: r.w * cut, h: r.h, depth: r.depth + 1 });
+      subs.push({ x: r.x + r.w * cut, y: r.y, w: r.w * (1 - cut), h: r.h, depth: r.depth + 1 });
+    }
+  }
+
+  // Each sub-rect gets a shape type, regime index, and corner orientation
+  for (const r of subs) {
+    r.shape = Math.floor(p.random(5)); // 0: rect, 1: circle-pot, 2: quarter-con, 3: half-enc, 4: tri-cos
+    r.regimeIdx = Math.floor(p.random(4));
+    r.corner = Math.floor(p.random(4));
+    // Some cells stay empty
+    r.empty = p.random() < 0.18;
+  }
+
+  return subs;
+}
+
+// Draw the cell pattern onto a real cell (x, y, w, h)
+function drawCellPattern(p, cx, cy, cw, ch, pattern, sectionRegimeIdx) {
+  for (const r of pattern) {
+    if (r.empty) continue;
+    const rx = cx + r.x * cw;
+    const ry = cy + r.y * ch;
+    const rw = r.w * cw;
+    const rh = r.h * ch;
+
+    // Color: weighted toward the section's dominant regime
+    let regimeIdx = r.regimeIdx;
+    if (p.random() < 0.55) regimeIdx = sectionRegimeIdx;
+    const color = REGIME_COLORS[regimeIdx];
+
+    p.noStroke();
+    p.fill(color);
+
+    if (r.shape === 0) {
+      // Solid rectangle
+      p.rect(rx, ry, rw, rh);
+    } else if (r.shape === 1) {
+      // Pot — circle inscribed in rect
+      p.fill(COLORS.paper);
+      p.rect(rx, ry, rw, rh);
+      p.fill(color);
+      const d = Math.min(rw, rh) * 0.85;
+      p.circle(rx + rw/2, ry + rh/2, d);
+    } else if (r.shape === 2) {
+      // Construction — quarter-circle corner (golden corner)
+      p.fill(COLORS.paper);
+      p.rect(rx, ry, rw, rh);
+      p.fill(color);
+      const radius = Math.min(rw, rh);
+      const c = r.corner;
+      p.push();
+      if (c === 0) {
+        // Top-left corner
+        p.arc(rx, ry, radius * 2, radius * 2, 0, Math.PI / 2, p.PIE);
+      } else if (c === 1) {
+        // Top-right
+        p.arc(rx + rw, ry, radius * 2, radius * 2, Math.PI / 2, Math.PI, p.PIE);
+      } else if (c === 2) {
+        // Bottom-right
+        p.arc(rx + rw, ry + rh, radius * 2, radius * 2, Math.PI, Math.PI * 1.5, p.PIE);
+      } else {
+        // Bottom-left
+        p.arc(rx, ry + rh, radius * 2, radius * 2, Math.PI * 1.5, Math.PI * 2, p.PIE);
+      }
+      p.pop();
+    } else if (r.shape === 3) {
+      // Encounter — half-circle (arch) along one edge
+      p.fill(COLORS.paper);
+      p.rect(rx, ry, rw, rh);
+      p.fill(color);
+      const c = r.corner;
+      p.push();
+      if (c === 0) {
+        // arch from bottom edge upward
+        p.arc(rx + rw/2, ry + rh, rw, rh * 2, Math.PI, Math.PI * 2);
+      } else if (c === 1) {
+        // arch from top edge downward
+        p.arc(rx + rw/2, ry, rw, rh * 2, 0, Math.PI);
+      } else if (c === 2) {
+        // arch from right edge leftward
+        p.arc(rx + rw, ry + rh/2, rw * 2, rh, Math.PI / 2, Math.PI * 1.5);
+      } else {
+        // arch from left edge rightward
+        p.arc(rx, ry + rh/2, rw * 2, rh, -Math.PI / 2, Math.PI / 2);
+      }
+      p.pop();
+    } else {
+      // Conservation — triangle (folded plane)
+      p.fill(COLORS.paper);
+      p.rect(rx, ry, rw, rh);
+      p.fill(color);
+      const c = r.corner;
+      p.push();
+      p.beginShape();
+      if (c === 0) {
+        p.vertex(rx, ry); p.vertex(rx + rw, ry); p.vertex(rx, ry + rh);
+      } else if (c === 1) {
+        p.vertex(rx, ry); p.vertex(rx + rw, ry); p.vertex(rx + rw, ry + rh);
+      } else if (c === 2) {
+        p.vertex(rx + rw, ry); p.vertex(rx + rw, ry + rh); p.vertex(rx, ry + rh);
+      } else {
+        p.vertex(rx, ry); p.vertex(rx + rw, ry + rh); p.vertex(rx, ry + rh);
+      }
+      p.endShape(p.CLOSE);
+      p.pop();
+    }
+
+    // Thin contour (Archetype style)
+    p.noFill();
+    p.stroke(COLORS.ink);
+    p.strokeWeight(0.4);
+    p.rect(rx, ry, rw, rh);
+  }
+}
+
+// ===========================================================================
+// CONSERVATION — flow field (Hobbs)
+// ===========================================================================
+function drawConservation(p, s) {
+  const W = p.width;
+  const margin = W * 0.04;
+  const noiseScale = 0.003 + (5 - s.depth) * 0.0008;
+  const stepSize = 1.5;
+  const curveLength = 80 + s.subpos * 18;
+  const curveCount = 50 + s.richness * 35;
+
+  const fieldRes = 8;
+  const fieldW = Math.ceil(W / fieldRes);
+  const field = [];
+  for (let x = 0; x < fieldW; x++) {
+    field[x] = [];
+    for (let y = 0; y < fieldW; y++) {
+      let n = 0;
+      let amp = 1;
+      let freq = 1;
+      let total = 0;
+      for (let o = 0; o < s.depth; o++) {
+        n += p.noise(x * noiseScale * freq, y * noiseScale * freq) * amp;
+        total += amp;
+        amp *= 0.5;
+        freq *= 2;
+      }
+      n = n / total;
+      field[x][y] = n * Math.PI * 4;
+    }
+  }
+
+  p.strokeWeight(0.8);
+  for (let i = 0; i < curveCount; i++) {
+    let x = p.random(margin, W - margin);
+    let y = p.random(margin, W - margin);
+
+    const regimeIdx = Math.floor(p.random(4));
+    const color = REGIME_COLORS[regimeIdx];
+    p.stroke(color);
+    p.drawingContext.globalAlpha = 0.55;
+    p.noFill();
+
+    p.beginShape();
+    p.vertex(x, y);
+    for (let j = 0; j < curveLength; j++) {
+      const fx = Math.floor(x / fieldRes);
+      const fy = Math.floor(y / fieldRes);
+      if (fx < 0 || fx >= fieldW || fy < 0 || fy >= fieldW) break;
+      const angle = field[fx][fy];
+      x += Math.cos(angle) * stepSize;
+      y += Math.sin(angle) * stepSize;
+      if (x < margin || x > W - margin || y < margin || y > W - margin) break;
+      p.vertex(x, y);
+    }
+    p.endShape();
+  }
+  p.drawingContext.globalAlpha = 1;
+
+  p.noStroke();
+  p.fill(COLORS.ink);
+  p.circle(W/2, W/2, 6);
+}
+
+// ===========================================================================
+// UI
+// ===========================================================================
+function updateLabels() {
+  document.getElementById('subposVal').textContent = subposLabels[state.subpos - 1];
+  document.getElementById('depthVal').textContent = depthLabels[state.depth - 1];
+  document.getElementById('richnessVal').textContent = state.richness + ' · ' + (state.richness <= 3 ? 'sparse' : state.richness <= 7 ? 'medium' : 'rich');
+  document.getElementById('seedVal').textContent = state.seed.toString(36).toUpperCase();
+  document.getElementById('stageMeta').textContent = `${state.regime.toUpperCase()} · ${subposLabels[state.subpos-1].split('·').slice(0,2).join('·')} · ${depthLabels[state.depth-1]} · richness ${state.richness} · seed ${state.seed.toString(36).toUpperCase()}`;
+}
+
+function regenerate() {
+  if (mainSketch) mainSketch.regenerate(state);
+  updateLabels();
+}
+
+window.addEventListener('load', function() {
+  const stage = document.getElementById('stage');
+  mainSketch = makeSketch(stage, state);
+  updateLabels();
+  renderGallery();
+});
+
+document.getElementById('regime').addEventListener('change', e => { state.regime = e.target.value; regenerate(); });
+document.getElementById('subpos').addEventListener('input', e => { state.subpos = parseInt(e.target.value); regenerate(); });
+document.getElementById('depth').addEventListener('input', e => { state.depth = parseInt(e.target.value); regenerate(); });
+document.getElementById('richness').addEventListener('input', e => { state.richness = parseInt(e.target.value); regenerate(); });
+document.getElementById('reseed').addEventListener('click', () => { state.seed = Math.floor(Math.random() * 1000000); regenerate(); });
+document.getElementById('randomize').addEventListener('click', () => {
+  const regimes = ['pot', 'construction', 'encounter', 'conservation'];
+  state.regime = regimes[Math.floor(Math.random()*4)];
+  state.subpos = 1 + Math.floor(Math.random() * 16);
+  state.depth = 1 + Math.floor(Math.random() * 5);
+  state.richness = 1 + Math.floor(Math.random() * 10);
+  state.seed = Math.floor(Math.random() * 1000000);
+  document.getElementById('regime').value = state.regime;
+  document.getElementById('subpos').value = state.subpos;
+  document.getElementById('depth').value = state.depth;
+  document.getElementById('richness').value = state.richness;
+  regenerate();
+});
+document.getElementById('download').addEventListener('click', () => {
+  const canvas = document.querySelector('#stage canvas');
+  if (canvas) {
+    const link = document.createElement('a');
+    link.download = `changeunit_${state.regime}_P${state.subpos}_L${state.depth}_R${state.richness}_${state.seed.toString(36)}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+});
+
+const variants = [
+  { regime: 'pot', subpos: 3, depth: 2, richness: 4, seed: 1001, label: 'Pot · early load' },
+  { regime: 'pot', subpos: 14, depth: 4, richness: 8, seed: 1002, label: 'Pot · near threshold' },
+  { regime: 'construction', subpos: 6, depth: 3, richness: 5, seed: 1003, label: 'Construction · shaping' },
+  { regime: 'construction', subpos: 15, depth: 4, richness: 8, seed: 1004, label: 'Construction · late select' },
+  { regime: 'encounter', subpos: 2, depth: 3, richness: 6, seed: 1005, label: 'Encounter · Order' },
+  { regime: 'encounter', subpos: 7, depth: 4, richness: 7, seed: 1006, label: 'Encounter · Balance' },
+  { regime: 'encounter', subpos: 14, depth: 5, richness: 9, seed: 1007, label: 'Encounter · Chaos' },
+  { regime: 'conservation', subpos: 16, depth: 5, richness: 9, seed: 1008, label: 'Conservation · full handoff' }
+];
+
+function renderGallery() {
+  const grid = document.getElementById('gallery');
+  grid.innerHTML = '';
+  variants.forEach(v => {
+    const cell = document.createElement('div');
+    cell.className = 'gallery-cell';
+    grid.appendChild(cell);
+    const cap = document.createElement('div');
+    cap.className = 'caption';
+    cap.textContent = v.label;
+    cell.appendChild(cap);
+
+    new p5(function(p) {
+      p.setup = function() {
+        const w = cell.offsetWidth || 280;
+        const cnv = p.createCanvas(w, w);
+        cnv.parent(cell);
+        p.pixelDensity(2);
+        p.noLoop();
+        drawRegime(p, v);
+      };
+    });
+
+    cell.addEventListener('click', () => {
+      Object.assign(state, v);
+      document.getElementById('regime').value = v.regime;
+      document.getElementById('subpos').value = v.subpos;
+      document.getElementById('depth').value = v.depth;
+      document.getElementById('richness').value = v.richness;
+      regenerate();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+## What this is for
+
+Persistence Dynamics produces a reading of any living system: which regime is currently loaded, which is building, which is meeting, which is handing off, and where the round is failing to close. The reading does not prescribe what to do about what it finds. It names what is happening, structurally, so that whoever is responsible for the system can decide where to act.
+
+The portability of the reading is what makes it useful. A clinician looking at a Phase III protocol through this lens sees the same four-position cycle as an organisational designer looking at a quarterly planning loop, even though the interventions available to each of them are entirely different. The diagnostic logic travels because the cycle is the same; the appropriate response varies because the material varies. The four regime types — capacitor, factory, reactor, homeostat — each respond to a different class of intervention, and once a reading identifies which type is failing, the class of intervention narrows immediately.

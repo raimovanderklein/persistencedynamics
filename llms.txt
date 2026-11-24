@@ -1,0 +1,14 @@
+# Persistence Dynamics
+
+> A theory of what makes things last. Two operations (hold, cross), each active or latent, give four regimes (Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the Change Unit: one cycle that creates the structure for the next. Cycles nest: every closed cycle is one part of a larger one.
+
+## Theory
+- [Theory index](https://persistencedynamics.com/theory/): the canonical text, one page per section
+- [Claims](https://persistencedynamics.com/claims/): every quantitative claim with its status (derived, tested, open, falsified)
+
+## The Change Unit
+- [Change Unit canon](https://persistencedynamics.com/change-unit/): axioms, formal core, recursion rules
+
+## Built on the theory
+- [Palintropy and the PWP](https://persistencedynamics.com/applications/palintropy/): the operating layer, a work protocol for people and AI agents
+- [Encounter](https://persistencedynamics.com/applications/encounter/): Palintropy applied to cancer

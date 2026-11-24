@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Persistence Dynamics — population</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@700&family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --grey:#4D4843; --pot:#1B5BD8; --con:#B77800; --enc:#D63A1F; --cons:#924D35; --line:#e4e0d9; --mute:#9a948c; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#fff;color:var(--grey);font-family:'Inter Tight',system-ui,sans-serif;}
+  #app{width:min(960px,96vw);margin:18px auto;}
+  h1{font-family:'Familjen Grotesk',system-ui,sans-serif;font-weight:700;font-size:24px;margin:0 0 2px;}
+  .sub{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a847c;margin-bottom:12px;}
+  #stage{width:100%;border:1px solid var(--line);border-radius:4px;display:block;background:#fff;}
+  .row{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:12px;}
+  .ctrl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey);min-width:150px;flex:1 1 150px;}
+  .ctrl label{display:flex;justify-content:space-between;margin-bottom:3px;color:#6f6a63;}
+  .ctrl input[type=range]{width:100%;accent-color:var(--grey);}
+  .btns{display:flex;gap:10px;margin-top:14px;}
+  button{font-family:'JetBrains Mono',monospace;font-size:12px;padding:7px 14px;border:1px solid var(--grey);background:#fff;color:var(--grey);border-radius:3px;cursor:pointer;}
+  button:hover{background:var(--grey);color:#fff;}
+  #readout{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey);margin-top:14px;line-height:1.7;}
+  #readout b{font-weight:500;}
+  .legend{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);margin-top:10px;}
+  .sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle;}
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>From the cycle, a population</h1>
+  <div class="sub">units meet, advance when a partner one phase behind is near, deposit on closure, starve without it, and merge two into one a level up</div>
+  <canvas id="stage" width="960" height="460"></canvas>
+
+  <div class="legend">
+    <span class="sw" style="background:var(--pot)"></span>Potentiality
+    <span class="sw" style="background:var(--con)"></span>Construction
+    <span class="sw" style="background:var(--enc)"></span>Encounter
+    <span class="sw" style="background:var(--cons)"></span>Conservation
+    &nbsp;&nbsp;· size = level · opacity = closure quality R
+  </div>
+
+  <div class="row">
+    <div class="ctrl"><label>seed population <span id="v_seed">200</span></label><input id="seed" type="range" min="20" max="320" value="200"></div>
+    <div class="ctrl"><label>meeting radius <span id="v_rad">34</span></label><input id="rad" type="range" min="10" max="60" value="34"></div>
+    <div class="ctrl"><label>speed <span id="v_spd">1.2</span></label><input id="spd" type="range" min="0" max="30" value="12"></div>
+    <div class="ctrl"><label>fire threshold <span id="v_thr">2.0</span></label><input id="thr" type="range" min="5" max="80" value="20"></div>
+    <div class="ctrl"><label>mutation <span id="v_mut">0.06</span></label><input id="mut" type="range" min="0" max="20" value="6"></div>
+    <div class="ctrl"><label>deposit / closure <span id="v_dep">110</span></label><input id="dep" type="range" min="20" max="180" value="110"></div>
+    <div class="ctrl"><label>merge threshold <span id="v_mrg">6</span></label><input id="mrg" type="range" min="2" max="30" value="6"></div>
+    <div class="ctrl"><label>maintenance cost <span id="v_mnt">0.06</span></label><input id="mnt" type="range" min="2" max="40" value="6"></div>
+  </div>
+
+  <div class="btns">
+    <button id="restart">restart</button>
+    <button id="pause">pause</button>
+  </div>
+
+  <div id="readout">loading…</div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('stage'), ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height, PHI=1.6180339887, CAP=520;
+  var COL=['#1B5BD8','#B77800','#D63A1F','#924D35'];
+  var CELL=26, GC=Math.ceil(W/CELL), GR=Math.ceil(H/CELL);
+  var field=new Float32Array(GC*GR);
+
+  var cfg={};
+  function readCfg(){
+    cfg.rad=+rad.value; cfg.spd=(+spd.value)/10; cfg.thr=(+thr.value)/10;
+    cfg.mut=(+mut.value)/100; cfg.dep=+dep.value; cfg.mrg=+mrg.value; cfg.mnt=(+mnt.value)/100;
+    v_rad.textContent=cfg.rad; v_spd.textContent=cfg.spd.toFixed(1); v_thr.textContent=cfg.thr.toFixed(1);
+    v_mut.textContent=cfg.mut.toFixed(2); v_dep.textContent=cfg.dep; v_mrg.textContent=cfg.mrg; v_mnt.textContent=cfg.mnt.toFixed(2);
+  }
+  ['rad','spd','thr','mut','dep','mrg','mnt'].forEach(function(id){document.getElementById(id).addEventListener('input',readCfg);});
+
+  var units, sparks, t, totalClosures, totalMerges, nextId;
+  function mk(x,y,level,key,res){
+    return {id:nextId++,x:x,y:y,vx:Math.random()*2-1,vy:Math.random()*2-1,level:level,
+      regime:(Math.random()*4)|0,dwell:0,fieldS:0,key:key,res:res.slice(),
+      identity:0,energy:38,R:0.9,closures:0,age:0,cool:0,adv:false};
+  }
+  function seedRes(){return [18+Math.random()*30,18+Math.random()*30,18+Math.random()*30,18+Math.random()*30];}
+  function init(){
+    readCfg(); units=[]; sparks=[]; t=0; totalClosures=0; totalMerges=0; nextId=1;
+    for(var i=0;i<field.length;i++) field[i]=6+Math.random()*6;
+    var n=+seed.value; v_seed.textContent=n;
+    for(var k=0;k<n;k++) units.push(mk(Math.random()*W,Math.random()*H,0,Math.random(),seedRes()));
+  }
+  function m1(x){return x+(Math.random()*2-1)*cfg.mut;}
+  function c01(x){return x<0?0:(x>1?1:x);}
+  function km(a,b){return Math.abs(a.key-b.key)<0.16;}
+
+  function reproduce(u){
+    if(units.length>=CAP) return;
+    var res=[Math.max(6,m1(u.res[0])),Math.max(6,m1(u.res[1])),Math.max(6,m1(u.res[2])),Math.max(6,m1(u.res[3]))];
+    var c=mk(u.x+(Math.random()*16-8),u.y+(Math.random()*16-8),u.level,c01(m1(u.key)),res);
+    c.energy=26; c.cool=220; units.push(c); u.energy-=44;
+  }
+  function closure(u){
+    u.closures++; totalClosures++; u.identity++;
+    u.energy+=cfg.dep*u.R; u.R=Math.min(1,u.R+0.04); u.fieldS=0;
+    var ci=((u.y/CELL)|0)*GC+((u.x/CELL)|0); if(ci>=0&&ci<field.length) field[ci]+=7;
+    if(u.energy>=80&&u.cool<=0) reproduce(u);
+  }
+  function adv(u){
+    var prev=u.regime; u.regime=(prev+1)%4; u.dwell=0; u.adv=true;
+    sparks.push({x:u.x,y:u.y,life:7,c:COL[u.regime]});
+    if(u.regime===0) closure(u);
+  }
+
+  function step(){
+    t++;
+    for(var i=0;i<field.length;i++) field[i]*=0.997;
+    var bs=Math.max(cfg.rad,12), buckets={};
+    for(var a=0;a<units.length;a++){
+      var u=units[a]; u.age++; u.cool--; u.adv=false; u.energy-=cfg.mnt*(1+u.level*0.4);
+      u.vx+=(Math.random()*2-1)*0.3; u.vy+=(Math.random()*2-1)*0.3;
+      var sp=Math.hypot(u.vx,u.vy)||1; u.vx/=sp; u.vy/=sp;
+      var v=cfg.spd*(1.1-u.level*0.12); u.x+=u.vx*v; u.y+=u.vy*v;
+      if(u.x<0){u.x=0;u.vx*=-1;} if(u.x>W){u.x=W;u.vx*=-1;}
+      if(u.y<0){u.y=0;u.vy*=-1;} if(u.y>H){u.y=H;u.vy*=-1;}
+      u.dwell++;
+      if(u.regime===0){var ci=((u.y/CELL)|0)*GC+((u.x/CELL)|0);
+        if(ci>=0&&ci<field.length){var tk=Math.min(field[ci],0.9); field[ci]-=tk; u.fieldS+=tk;}}
+      var bk=((u.x/bs)|0)+'_'+((u.y/bs)|0); (buckets[bk]||(buckets[bk]=[])).push(u);
+    }
+    // Potentiality fires autonomously from the substrate field
+    for(var a1=0;a1<units.length;a1++){var p=units[a1];
+      if(p.regime===0&&!p.adv&&p.dwell>=p.res[0]&&p.fieldS>=cfg.thr) adv(p);}
+    // meetings: a ready unit advances if a partner one phase behind it is near; key gates merge only
+    var merges=[], consumed={};
+    for(var bxy in buckets){var pr=bxy.split('_'),BX=+pr[0],BY=+pr[1],cur=buckets[bxy];
+      for(var dx=-1;dx<=1;dx++)for(var dy=-1;dy<=1;dy++){var nb=buckets[(BX+dx)+'_'+(BY+dy)]; if(!nb)continue;
+        for(var pI=0;pI<cur.length;pI++){var uu=cur[pI];
+          for(var qI=0;qI<nb.length;qI++){var w=nb[qI]; if(w===uu)continue;
+            var ddx=uu.x-w.x,ddy=uu.y-w.y; if(ddx*ddx+ddy*ddy>cfg.rad*cfg.rad) continue;
+            if(!uu.adv&&uu.dwell>=uu.res[uu.regime]&&w.regime===(uu.regime+3)%4) adv(uu);
+            if(!w.adv&&w.dwell>=w.res[w.regime]&&uu.regime===(w.regime+3)%4) adv(w);
+            if(km(uu,w)&&uu.level===w.level&&uu.cool<=0&&w.cool<=0&&uu.identity>=cfg.mrg&&w.identity>=cfg.mrg&&uu.id<w.id&&!consumed[uu.id]&&!consumed[w.id]){
+              consumed[uu.id]=1; consumed[w.id]=1; merges.push([uu,w]);
+            }
+          }
+        }
+      }
+    }
+    for(var m=0;m<merges.length;m++){var A=merges[m][0], B=merges[m][1];
+      A.dead=true; B.dead=true;
+      var res=[A.res[0]+B.res[0],A.res[1]+B.res[1],A.res[2]+B.res[2],A.res[3]+B.res[3]];
+      var c=mk((A.x+B.x)/2,(A.y+B.y)/2,A.level+1,c01(m1((A.key+B.key)/2)),res);
+      c.identity=A.identity+B.identity; c.energy=A.energy+B.energy; c.R=(A.R+B.R)/2; c.cool=300; c.regime=0;
+      units.push(c); totalMerges++;
+      sparks.push({x:c.x,y:c.y,life:20,c:COL[0],r:0,big:true});
+    }
+    var alive=[];
+    for(var a3=0;a3<units.length;a3++){var u3=units[a3];
+      if(u3.dead) continue;
+      if(u3.energy<=0||u3.R<0.22||(u3.age>2600&&u3.identity<1)) continue;
+      alive.push(u3);
+    }
+    units=alive;
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var gy=0;gy<GR;gy++)for(var gx=0;gx<GC;gx++){var f=field[gy*GC+gx];
+      if(f>0.5){ctx.fillStyle='rgba(27,91,216,'+Math.min(0.10,f*0.006)+')'; ctx.fillRect(gx*CELL,gy*CELL,CELL,CELL);}}
+    for(var i=0;i<units.length;i++){var u=units[i]; var r=3.5+u.level*3;
+      ctx.globalAlpha=0.35+0.65*u.R; ctx.beginPath(); ctx.arc(u.x,u.y,r,0,6.2832);
+      ctx.fillStyle=COL[u.regime]; ctx.fill();
+      if(u.identity>0){ctx.globalAlpha=Math.min(0.9,0.25+u.identity*0.05); ctx.lineWidth=1.2; ctx.strokeStyle='#4D4843'; ctx.stroke();}
+    }
+    ctx.globalAlpha=1;
+    var live=[];
+    for(var s=0;s<sparks.length;s++){var sp=sparks[s]; sp.life--; if(sp.life<=0)continue;
+      if(sp.big){sp.r=(sp.r||0)+2.4; ctx.globalAlpha=sp.life/20; ctx.beginPath(); ctx.arc(sp.x,sp.y,sp.r,0,6.2832); ctx.strokeStyle=sp.c; ctx.lineWidth=2; ctx.stroke();}
+      else{ctx.globalAlpha=sp.life/7; ctx.fillStyle=sp.c; ctx.beginPath(); ctx.arc(sp.x,sp.y,2.4,0,6.2832); ctx.fill();}
+      live.push(sp);
+    }
+    sparks=live; ctx.globalAlpha=1;
+  }
+
+  function stats(){
+    var levels={}, maxL=0, keys={}, mr=[0,0,0,0], n0=0, R=0;
+    for(var i=0;i<units.length;i++){var u=units[i];
+      levels[u.level]=(levels[u.level]||0)+1; if(u.level>maxL)maxL=u.level;
+      keys[Math.round(u.key*8)]=1; R+=u.R;
+      if(u.level===0){mr[0]+=u.res[0];mr[1]+=u.res[1];mr[2]+=u.res[2];mr[3]+=u.res[3];n0++;}
+    }
+    var n=units.length||1; var lh=[]; for(var L=0;L<=maxL;L++) lh.push('L'+L+':'+(levels[L]||0));
+    var resStr = n0? (mr[0]/n0).toFixed(0)+' '+(mr[1]/n0).toFixed(0)+' '+(mr[2]/n0).toFixed(0)+' '+(mr[3]/n0).toFixed(0) : '— — — —';
+    document.getElementById('readout').innerHTML=
+      't <b>'+t+'</b>   population <b>'+units.length+'</b>   levels <b>'+lh.join('  ')+'</b><br>'+
+      'species <b>'+Object.keys(keys).length+'</b>   closures <b>'+totalClosures+'</b>   merges <b>'+totalMerges+'</b>   mean R <b>'+(R/n).toFixed(2)+'</b><br>'+
+      'L0 mean residence  Pot/Con/Enc/Cons <b>'+resStr+'</b>'+
+      (units.length===0?'<br><span style="color:#D63A1F">population collapsed — below ignition density. restart, raise seed, or lower maintenance.</span>':'');
+  }
+
+  var paused=false;
+  document.getElementById('pause').addEventListener('click',function(){paused=!paused; this.textContent=paused?'resume':'pause';});
+  document.getElementById('restart').addEventListener('click',init);
+  document.getElementById('seed').addEventListener('input',function(){v_seed.textContent=this.value;});
+
+  function loop(){ if(!paused){readCfg(); step();} draw(); stats(); requestAnimationFrame(loop); }
+  init(); loop();
+})();
+</script>
+</body>
+</html>

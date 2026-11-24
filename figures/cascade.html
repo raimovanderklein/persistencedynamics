@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Encounter — the cycle, ageing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14110E;
+    --panel:#1B1814;
+    --line:#2C2823;
+    --text:#E8E4DD;
+    --muted:#8A847B;
+    --faint:#5A554D;
+    --pot:#3D74F0;
+    --con:#D9920A;
+    --enc:#E8472B;
+    --cons:#B86A4E;
+    --green:#4E9B63;
+    --hot:#FF6A3D;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter Tight',system-ui,sans-serif}
+  body{padding:clamp(20px,4vw,56px);line-height:1.5}
+  .wrap{max-width:1140px;margin:0 auto}
+  h1{font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,5vw,3.4rem);line-height:1.02;letter-spacing:-0.02em;margin:0 0 .4rem}
+  h1 .dim{color:var(--cons)}
+  .lede{color:var(--muted);max-width:60ch;font-size:clamp(1rem,1.6vw,1.15rem);margin:0 0 2.4rem}
+  .stage{display:grid;grid-template-columns:1.3fr .9fr;gap:clamp(20px,3vw,40px);align-items:start}
+  @media(max-width:820px){.stage{grid-template-columns:1fr}}
+  .ringbox{position:relative;background:radial-gradient(120% 120% at 50% 40%,#1A1611 0%,#100D0B 100%);border:1px solid var(--line);border-radius:16px;padding:8px}
+  canvas{display:block;width:100%;height:auto;border-radius:10px}
+  .panel{display:flex;flex-direction:column;gap:22px}
+  .controls{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .agehead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  .agehead .label{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .agehead .val{font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:2.6rem;line-height:1}
+  .agehead .val span{font-size:1rem;color:var(--muted);font-weight:500;margin-left:4px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--green),var(--con),var(--enc));outline:none;margin:6px 0 16px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--text);border:3px solid var(--bg);cursor:pointer;box-shadow:0 0 0 1px var(--line)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--text);border:3px solid var(--bg);cursor:pointer}
+  .btnrow{display:flex;gap:10px}
+  button{font-family:'Inter Tight',sans-serif;font-weight:600;font-size:.92rem;border:1px solid var(--line);background:#221E19;color:var(--text);border-radius:9px;padding:10px 16px;cursor:pointer;transition:background .15s,border-color .15s}
+  button:hover{background:#2A2620;border-color:var(--faint)}
+  button:focus-visible{outline:2px solid var(--pot);outline-offset:2px}
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .ro{background:var(--panel);padding:16px 18px}
+  .ro .k{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .ro .v{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:500}
+  .cascade{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 0}
+  .cas{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--line)}
+  .cas:last-child{border-bottom:none}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--faint);flex:none;transition:background .3s,box-shadow .3s}
+  .cas.warn .dot{background:var(--con);box-shadow:0 0 10px var(--con)}
+  .cas.fail .dot{background:var(--enc);box-shadow:0 0 12px var(--enc)}
+  .cas .name{font-weight:600;font-size:.95rem}
+  .cas .pos{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--faint);margin-left:auto}
+  .cas .state{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);min-width:74px;text-align:right}
+  .cas.warn .state{color:var(--con)}
+  .cas.fail .state{color:var(--enc)}
+  .read{margin-top:3.2rem;display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px)}
+  @media(max-width:820px){.read{grid-template-columns:1fr}}
+  .read h2{font-family:'Familjen Grotesk',sans-serif;font-weight:700;font-size:1.3rem;margin:0 0 .7rem}
+  .read p{color:var(--muted);font-size:.95rem;margin:0 0 1rem}
+  .read strong{color:var(--text);font-weight:600}
+  .read .pot{color:var(--pot)}.read .con{color:var(--con)}.read .enc{color:var(--enc)}.read .cons{color:var(--cons)}
+  details{margin-top:2.6rem;border-top:1px solid var(--line);padding-top:1.4rem}
+  summary{cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  details[open] summary{color:var(--text);margin-bottom:1rem}
+  table{border-collapse:collapse;width:100%;font-family:'JetBrains Mono',monospace;font-size:.8rem;margin:.6rem 0 1.4rem}
+  td{border:1px solid var(--line);padding:7px 11px;color:var(--muted)}
+  td:first-child{color:var(--text)}
+  .disc{color:var(--faint);font-size:.85rem;max-width:70ch}
+  .foot{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  a{color:var(--cons)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The cycle, <span class="dim">ageing</span>.</h1>
+  <p class="lede">One maintenance cycle of the immune system, sixteen positions, run from age 20 to 90. The cycle does not fail all at once. It fails in an order: the build of the new goes first, the correcting arm exhausts, the patrol runs hot, and the closure that lets the cycle compound its own work goes last. Move age forward and watch the order arrive.</p>
+
+  <div class="stage">
+    <div class="ringbox">
+      <canvas id="ring" width="900" height="900" aria-label="Sixteen-position cycle ring, brightness shows current stock at each position"></canvas>
+    </div>
+
+    <div class="panel">
+      <div class="controls">
+        <div class="agehead">
+          <span class="label">Age</span>
+          <span class="val" id="ageVal">20<span>yrs</span></span>
+        </div>
+        <input type="range" id="age" min="20" max="90" step="0.5" value="20" aria-label="Age in years">
+        <div class="btnrow">
+          <button id="play">Play ▶</button>
+          <button id="reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="readouts">
+        <div class="ro"><div class="k">Closure deficit ρ</div><div class="v" id="rho">2%</div></div>
+        <div class="ro"><div class="k">Circulating capacity</div><div class="v" id="cap">—</div></div>
+      </div>
+
+      <div class="cascade" id="cascade">
+        <div class="cas" data-stage="0">
+          <span class="dot"></span><span class="name">Reproduction</span>
+          <span class="state">holding</span><span class="pos">build · P5–P8</span>
+        </div>
+        <div class="cas" data-stage="1">
+          <span class="dot"></span><span class="name">Correcting</span>
+          <span class="state">holding</span><span class="pos">P15</span>
+        </div>
+        <div class="cas" data-stage="2">
+          <span class="dot"></span><span class="name">Patrolling</span>
+          <span class="state">holding</span><span class="pos">P14</span>
+        </div>
+        <div class="cas" data-stage="3">
+          <span class="dot"></span><span class="name">Integration</span>
+          <span class="state">holding</span><span class="pos">P16 → P1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="read">
+    <div>
+      <h2>How to read it</h2>
+      <p>The ring is one cycle, sixteen positions, four regimes: <span class="pot">Potentiality</span> top-left, <span class="con">Construction</span> top-right, <span class="enc">Encounter</span> bottom-right, <span class="cons">Conservation</span> bottom-left. Traversal is clockwise. Dot brightness is current stock at that position.</p>
+      <p>Two positions inside Conservation carry the maintenance work this page is about. <strong>P14 is patrolling</strong>, the watch the system rebuilds and runs over itself. <strong>P15 is correcting</strong>, the small engagement that resolves what the watch flags. The arc from <strong>P16 back to P1</strong> is closure: the handoff where a finished round becomes the substrate the next round loads. Closure is where the cycle compounds its own investment. When it carries less than a full unit, the difference is lost as deficit and the cycle stops building on itself.</p>
+    </div>
+    <div>
+      <h2>The order is the claim</h2>
+      <p>Under a contracting budget the most forward-looking work is cut first. The build of new capacity is the surplus the cycle produces beyond keeping itself alive, so <strong>reproduction fails first</strong>: thinner thymic output, fewer naive cells, less repertoire built. The correcting arm then runs against more than it can clear and <strong>exhausts second</strong>. The patrol, receiving an unreset, under-maintained field, <strong>runs hot third</strong>, the inflammation that is usually read as a cause rather than a third-stage consequence. Closure carries less and less, so <strong>integration fails last</strong>: the cycle can no longer compound, which is what failure to form new durable protection looks like.</p>
+      <p>The order survives wide variation in the rates. The absolute timing does not. What this page argues is the sequence, not the calendar.</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>Model & parameters</summary>
+    <p class="disc">Discrete-time stocks-and-flows over sixteen positions. A constant low input enters at P1 (signal is always present). Stock advances one position per step. Construction (P5–P8) applies a production gain with logistic self-limiting, this is the build of new capacity. P15 throughput is capped by a correcting-capacity term. P14 clears only a fraction of what arrives; the remainder accumulates and the dot runs hot. The P16→P1 handoff carries a fraction R of its outflow; (1−R) is logged as closure deficit ρ. Four age-driven curves degrade in staggered order.</p>
+    <table>
+      <tr><td>Reproduction gain (P5–P8)</td><td>fails first</td><td>logistic centre ≈ age 40</td></tr>
+      <tr><td>Correcting capacity (P15)</td><td>fails second</td><td>logistic centre ≈ age 57</td></tr>
+      <tr><td>Patrol clearance (P14)</td><td>fails third</td><td>logistic centre ≈ age 67</td></tr>
+      <tr><td>Closure carried fraction R (P16→P1)</td><td>fails last</td><td>logistic centre ≈ age 78</td></tr>
+    </table>
+    <p class="disc">All constants are tuned, not derived from clinical data. They are chosen so the structural argument is visible. The qualitative ordering of the four failures holds across wide variation in every constant; the absolute magnitudes and the ages do not. This is a working hypothesis with disclosed parameters, not a clinical model. Age milestones are illustrative and loosely echo thymic involution (early), inflammaging (mid–late), and vaccine hyporesponse (late).</p>
+  </details>
+
+  <div class="foot">
+    <span>Encounter · the cycles, running</span>
+    <span>structural model · ordering robust, magnitudes not</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('ring');
+  const ctx = canvas.getContext('2d');
+  const ageSlider = document.getElementById('age');
+  const ageVal = document.getElementById('ageVal');
+  const rhoEl = document.getElementById('rho');
+  const capEl = document.getElementById('cap');
+  const playBtn = document.getElementById('play');
+  const resetBtn = document.getElementById('reset');
+  const casRows = [...document.querySelectorAll('.cas')];
+
+  const REGIME = ['pot','pot','pot','pot','con','con','con','con','enc','enc','enc','enc','cons','cons','cons','cons'];
+  const COL = {pot:[61,116,240], con:[217,146,10], enc:[232,71,43], cons:[184,106,78]};
+  const HOT = [255,106,61];
+  const N = 16;
+
+  // ---- model state ----
+  let a = new Array(N).fill(2);
+  let rho = 0.02, totalCap = 220, total = 0;
+  const seed = 0.35, rate = 1.4, dt = 0.085, substeps = 3;
+
+  const sig = (A,c,w)=> 1/(1+Math.exp((A-c)/w));         // decreasing in A
+  const reprodGain = A => 0.70 + 0.46*sig(A,40,7);        // >1 young, <1 old
+  const correctCap = A => 0.25 + 0.78*sig(A,57,6);
+  const patrolClr  = A => 0.20 + 0.80*sig(A,67,6);
+  const closeR     = A => 0.46 + 0.52*sig(A,78,6);
+
+  function step(A){
+    const g = reprodGain(A), cc = correctCap(A), kp = patrolClr(A), R = closeR(A);
+    for(let s=0;s<substeps;s++){
+      total = a.reduce((x,y)=>x+y,0);
+      const effGain = 1 + (g-1)*Math.max(0, 1 - total/totalCap);
+      const out = new Array(N).fill(0);
+      for(let i=0;i<N;i++){
+        let o = rate*a[i]*dt;
+        if(i===14) o = Math.min(o, cc*rate*0.9*dt + cc*0.4*a[i]*dt); // P15 capped by correcting
+        if(i===13) o = kp*o;                                          // P14 only clears a fraction
+        out[i]=o;
+      }
+      for(let i=0;i<N;i++){
+        a[i]-=out[i];
+        if(i===15){ a[0]+= R*out[15]; rho = 1-R; }                    // closure carries R
+        else if(i===3){ a[4]+= effGain*out[3]; }                      // Construction build gain
+        else { a[i+1]+=out[i]; }
+      }
+      a[0]+= seed*dt;
+      for(let i=0;i<N;i++) if(a[i]<0) a[i]=0;
+    }
+    total = a.reduce((x,y)=>x+y,0);
+  }
+
+  // settle the model at a given age so scrubbing shows steady state
+  function settle(A, iters){
+    for(let k=0;k<iters;k++) step(A);
+  }
+
+  // ---- geometry ----
+  let cx, cy, Rr, dotR, DPR;
+  function layout(){
+    DPR = Math.min(window.devicePixelRatio||1, 2);
+    const cssW = canvas.clientWidth;
+    canvas.width = cssW*DPR; canvas.height = cssW*DPR;
+    cx = canvas.width/2; cy = canvas.height/2;
+    Rr = canvas.width*0.355; dotR = canvas.width*0.026;
+  }
+  // P1 (i=0) at upper-left, clockwise; Pot TL, Con TR, Enc BR, Cons BL
+  const ang = i => (-135 + i*22.5) * Math.PI/180;
+  const px = i => cx + Rr*Math.cos(ang(i));
+  const py = i => cy + Rr*Math.sin(ang(i));
+
+  function glow(x,y,r,rgb,alpha){
+    const grd = ctx.createRadialGradient(x,y,0,x,y,r);
+    grd.addColorStop(0,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha})`);
+    grd.addColorStop(0.5,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha*0.35})`);
+    grd.addColorStop(1,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},0)`);
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+  }
+
+  function draw(A){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const R = closeR(A), kp = patrolClr(A);
+    const maxA = Math.max(0.6, ...a);
+
+    // faint base ring
+    ctx.strokeStyle='rgba(90,85,77,0.25)'; ctx.lineWidth=canvas.width*0.002;
+    ctx.beginPath(); ctx.arc(cx,cy,Rr,0,7); ctx.stroke();
+
+    // closure arc P16 -> P1 (the compounding handoff), opacity = R
+    const a16=ang(15), a1=ang(0);
+    ctx.lineWidth=canvas.width*0.013; ctx.lineCap='round';
+    const healthy=[78,155,99], dead=[120,60,50];
+    const m = R; const cc=[
+      Math.round(dead[0]+(healthy[0]-dead[0])*m),
+      Math.round(dead[1]+(healthy[1]-dead[1])*m),
+      Math.round(dead[2]+(healthy[2]-dead[2])*m)];
+    ctx.strokeStyle=`rgba(${cc[0]},${cc[1]},${cc[2]},${0.25+0.6*R})`;
+    ctx.beginPath(); ctx.arc(cx,cy,Rr, a16, a1+ (a1<a16? 2*Math.PI:0)); ctx.stroke();
+    // deficit leak when closure failing
+    if(R<0.82){
+      const leak=(0.82-R);
+      for(let j=0;j<14;j++){
+        const t=a16+(a1-a16)*(j/13);
+        const lx=cx+ (Rr+canvas.width*0.02*Math.random())*Math.cos(t);
+        const ly=cy+ (Rr+canvas.width*0.02*Math.random())*Math.sin(t);
+        ctx.fillStyle=`rgba(232,71,43,${leak*0.5*Math.random()})`;
+        ctx.beginPath(); ctx.arc(lx,ly,canvas.width*0.004,0,7); ctx.fill();
+      }
+    }
+
+    // dots
+    for(let i=0;i<N;i++){
+      const x=px(i), y=py(i);
+      let rgb=COL[REGIME[i]];
+      let b = a[i]/maxA;                       // brightness 0..1
+      // P14 runs hot: tint toward hot + extra glow when patrol clearance low and stock elevated
+      let extra=0;
+      if(i===13 && kp<0.7){
+        const hotness=(0.7-kp)/0.5 * Math.min(1,a[13]/ (maxA*0.6));
+        rgb=[Math.round(rgb[0]+(HOT[0]-rgb[0])*hotness),
+             Math.round(rgb[1]+(HOT[1]-rgb[1])*hotness),
+             Math.round(rgb[2]+(HOT[2]-rgb[2])*hotness)];
+        extra=hotness;
+      }
+      glow(x,y,dotR*(3.4+extra*2.2),rgb,0.16+0.5*b+extra*0.25);
+      // core
+      ctx.beginPath(); ctx.arc(x,y,dotR*0.55,0,7);
+      ctx.fillStyle=`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.35+0.65*b})`; ctx.fill();
+      ctx.lineWidth=canvas.width*0.0016;
+      ctx.strokeStyle=`rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`; ctx.stroke();
+    }
+
+    // regime labels
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font=`500 ${Math.round(canvas.width*0.026)}px 'Familjen Grotesk',sans-serif`;
+    const lab=[['Potentiality',2,COL.pot],['Construction',6,COL.con],['Encounter',10,COL.enc],['Conservation',14,COL.cons]];
+    lab.forEach(([t,i,rgb])=>{
+      const lx=cx+(Rr+canvas.width*0.085)*Math.cos(ang(i)-0.20);
+      const ly=cy+(Rr+canvas.width*0.085)*Math.sin(ang(i)-0.20);
+      ctx.fillStyle=`rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.85)`;
+      ctx.fillText(t,lx,ly);
+    });
+
+    // position tags for the anchors
+    ctx.font=`500 ${Math.round(canvas.width*0.019)}px 'JetBrains Mono',monospace`;
+    const tag=(i,txt)=>{
+      const tx=cx+(Rr-canvas.width*0.072)*Math.cos(ang(i));
+      const ty=cy+(Rr-canvas.width*0.072)*Math.sin(ang(i));
+      ctx.fillStyle='rgba(232,228,221,0.55)'; ctx.fillText(txt,tx,ty);
+    };
+    tag(7,'P8'); tag(13,'P14'); tag(14,'P15'); tag(15,'P16');
+    // closure label
+    const mid=(a16+ (a1<a16?a1+2*Math.PI:a1))/2;
+    ctx.font=`500 ${Math.round(canvas.width*0.02)}px 'JetBrains Mono',monospace`;
+    ctx.fillStyle=`rgba(${cc[0]},${cc[1]},${cc[2]},${0.5+0.5*R})`;
+    const clx=cx+(Rr+canvas.width*0.055)*Math.cos(mid);
+    const cly=cy+(Rr+canvas.width*0.055)*Math.sin(mid);
+    ctx.fillText('closure',clx,cly);
+
+    // centre readout
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(232,228,221,0.92)';
+    ctx.font=`700 ${Math.round(canvas.width*0.085)}px 'Familjen Grotesk',sans-serif`;
+    ctx.fillText(Math.round(A), cx, cy-canvas.width*0.01);
+    ctx.fillStyle='rgba(138,132,123,0.8)';
+    ctx.font=`500 ${Math.round(canvas.width*0.022)}px 'JetBrains Mono',monospace`;
+    ctx.fillText('years', cx, cy+canvas.width*0.055);
+  }
+
+  // ---- cascade indicators ----
+  function updateCascade(A){
+    const g=reprodGain(A), cc=correctCap(A), kp=patrolClr(A), R=closeR(A);
+    const set=(row,state,label)=>{
+      row.classList.remove('warn','fail');
+      if(state==='warn') row.classList.add('warn');
+      if(state==='fail') row.classList.add('fail');
+      row.querySelector('.state').textContent=label;
+    };
+    set(casRows[0], g<0.92?'fail':g<1.04?'warn':'', g<0.92?'failing':g<1.04?'declining':'holding');
+    set(casRows[1], cc<0.5?'fail':cc<0.8?'warn':'', cc<0.5?'exhausted':cc<0.8?'straining':'holding');
+    set(casRows[2], kp<0.45?'fail':kp<0.72?'warn':'', kp<0.45?'running hot':kp<0.72?'heating':'holding');
+    set(casRows[3], R<0.7?'fail':R<0.86?'warn':'', R<0.7?'failing':R<0.86?'slipping':'holding');
+  }
+
+  function refreshReadouts(A){
+    rhoEl.textContent = Math.round(rho*100)+'%';
+    capEl.textContent = Math.round(100*total/totalCap)+'%';
+    ageVal.innerHTML = Math.round(A)+'<span>yrs</span>';
+  }
+
+  // ---- run loop ----
+  let A = 20, playing=false, lastT=0;
+  function setAge(v, hard){
+    A = v; ageSlider.value=v;
+    if(hard){ a=new Array(N).fill(2); settle(A, 240); }
+  }
+
+  function frame(t){
+    if(!lastT) lastT=t;
+    const elapsed=(t-lastT)/1000; lastT=t;
+    if(playing){
+      A += elapsed*(70/34);                 // 20->90 over ~34s
+      if(A>=90){ A=90; playing=false; playBtn.textContent='Play ▶'; }
+      ageSlider.value=A;
+    }
+    settle(A, playing?3:2);                  // advance the model a few ticks
+    draw(A); updateCascade(A); refreshReadouts(A);
+    requestAnimationFrame(frame);
+  }
+
+  // ---- events ----
+  ageSlider.addEventListener('input',e=>{
+    playing=false; playBtn.textContent='Play ▶';
+    setAge(parseFloat(e.target.value), true);
+  });
+  playBtn.addEventListener('click',()=>{
+    if(A>=90) setAge(20,true);
+    playing=!playing; playBtn.textContent= playing?'Pause ❚❚':'Play ▶';
+  });
+  resetBtn.addEventListener('click',()=>{
+    playing=false; playBtn.textContent='Play ▶'; setAge(20,true);
+  });
+  window.addEventListener('resize',layout);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  layout(); setAge(20,true);
+  if(reduce){ draw(A); updateCascade(A); refreshReadouts(A); }
+  else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
