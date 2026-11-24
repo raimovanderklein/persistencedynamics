@@ -2,7 +2,7 @@
 
 **Persistence Dynamics (PD) is a theory of what makes things last.** Anything that uses energy to maintain itself runs one cycle. Two operations, *hold* and *cross*, are each active or latent. That gives four regimes, **Potentiality, Construction, Encounter and Conservation**, which run in one forced order. A round closes when Conservation hands its residue back as the next Potentiality's material. Every closed cycle is one part of a larger cycle, and contains smaller ones.
 
-The unit of the theory is the **Change Unit**: one cycle that creates the structure for the next cycle to build on. It is the conceptual model of one unit of change.
+The unit of the theory is the **persistor**: one cycle that creates the structure for the next cycle to build on. It is the conceptual model of one unit of change, and is also called the Change Unit or Quadragen.
 
 Site: [persistencedynamics.com](https://persistencedynamics.com) (coming).
 
@@ -11,7 +11,7 @@ Site: [persistencedynamics.com](https://persistencedynamics.com) (coming).
 | Folder | What it holds | Status |
 | --- | --- | --- |
 | [`theory/`](theory/) | The theory, one file per section | Canon (v2, 2026-05-27) |
-| [`change-unit/`](change-unit/) | The Change Unit: definition, axioms, formal core, recursion rules | Imported canon, being edited for publication |
+| [`persistor/`](persistor/) | The persistor, the unit of change: definition, axioms, formal core, recursion rules | Imported canon, being edited for publication |
 | [`claims.md`](claims.md) | Every quantitative claim, with its status | Living |
 | [`essays/`](essays/) | Essays that apply the theory | Published writing |
 | [`papers/`](papers/) | Papers by the author | Preprints |
