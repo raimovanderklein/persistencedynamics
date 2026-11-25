@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- 2026-11-25: Removed 'quadragen' and the 'where space and time meet' framing (not in the paper). The persistor figure is now the paper's two-bit square with the direction of the cycle.
 - 2026-11-25: Site rebuilt around a newcomer's journey: home asks why anything lasts, states the persistor claim, walks an immune response and a neuron through the four regimes, says what the theory is for and who is behind it. The persistor page leads; the theory page is plain-language first, uses interactive figures once, and ends with how the theory could be wrong (paper §11). New About page links Encounter and the Zenodo paper. Canon-only axioms, sixteen positions and standing/arriving axes removed from the site.
 - 2026-11-25: One name: persistor. Alias lists for Change Unit and Quadragen removed; quadragen named only where its geometric form is drawn.
 - 2026-11-25: Vocabulary aligned with the paper (Zenodo 10.5281/zenodo.20415561). Threshold names Activation, Egress, Drain and Suppression removed (not in the paper); thresholds are named by the bit that flips. Hold and cross read as past and future, not space and time. Closure equation stated as first-order plus second-order reach. Persistor nesting uses standing and arriving axis, carried and contained, means and identity. Persistor wave formula corrected to hold = (1 + cos θ)/2.

@@ -218,7 +218,7 @@ def five(n):
     return fig(body, "The five conditions build on each other. Closure, the fourth, is where a single round becomes a cycle.", n)
 
 
-def quadragen(n):
+def square(n):
     W, H = 520, 390
     s0, s = 100, 320
     out = []
@@ -230,14 +230,15 @@ def quadragen(n):
         out.append(f'<text x="{x+16}" y="{y+52}" font-size="17" fill="{INK}">{name}</text>')
         bits = ["11", "01", "00", "10"][i]
         out.append(f'<text x="{x+16}" y="{y+s/2-18}" font-size="26" fill="{INK}">{bits}</text>')
-    c = s0 + s / 2
-    out.append(f'<circle cx="{c}" cy="{40+s/2}" r="6" fill="{INK}"/>')
-    body = svg(W, H, "".join(out), "The quadragen: four faces of one moment, around the crossing of two dimensions.")
-    return fig(body, "The quadragen. At one instant a persistor has four faces, one per regime, around the point where space and time cross. Over time the faces come in turn.", n)
+    cx, cy = s0 + s / 2, 40 + s / 2
+    for x, y, rot in ((cx, cy - 80, 0), (cx + 80, cy, 90), (cx, cy + 80, 180), (cx - 80, cy, 270)):
+        out.append(f'<circle cx="{x}" cy="{y}" r="13" fill="{PAPER}"/><path d="M-7 -6 L7 0 L-7 6 Z" fill="{INK}" transform="translate({x} {y}) rotate({rot})"/>')
+    body = svg(W, H, "".join(out), "The four regimes as the four combinations of hold and cross, written as two bits.")
+    return fig(body, "The four regimes as two bits, hold first and cross second (1 is active, 0 is latent). The cycle runs clockwise around the square: Potentiality, Construction, Encounter, Conservation. Each step switches one bit, so it never crosses the diagonal.", n)
 
 
 FIGS = {"waves": waves, "phase": phase, "dimensions": dimensions, "order": order,
-        "closure": closure, "recursion": recursion, "five": five, "quadragen": quadragen}
+        "closure": closure, "recursion": recursion, "five": five, "square": square}
 
 
 def lineage(n):

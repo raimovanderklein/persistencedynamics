@@ -8,4 +8,4 @@ The **generational dimension** runs from Construction to Conservation. It is the
 
 <!-- fig:dimensions -->
 
-Every regime sits where one position on the transactional dimension meets one position on the generational dimension. This crossing of space and time is what the persistor is.
+Every regime sits where one position on the transactional dimension meets one position on the generational dimension.
