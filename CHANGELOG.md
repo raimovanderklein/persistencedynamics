@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- 2026-11-25: Home derives the order instead of asserting it: one switch per step follows from hold and cross being two waves a quarter turn apart; what a round produces is the area its loop encloses (once round +1, diagonal shortcut 1/2, crossing orders 0, reverse -1), shown in a computed figure; direction from hold leading cross. Marked as a derivation, not a measurement (from the PD v2 working doc of 7 Nov 2026, section 3).
 - 2026-11-25: Home leads with the derivation. New section 'Why this order and no other' shows the two-bit square and states, in the paper's words, why only one operation switches per step, plus the substrate argument and what would disprove it. 'What it is for' now opens with reading where a system is stuck; the vague prediction line is replaced by the paper's numbers (d = 1/φ ≈ 0.618; γT ≈ 1.924 for four levels), marked as conditional on self-similarity.
 - 2026-11-25: Lineage adds Stafford Beer (Viable System Model, recursion theorem), and a 'Working alongside' section with Friston, Kauffman, and Cronin and Walker's assembly theory. Persistor claim worded as in the v2 paper draft: anything that persists by running is a persistor.
 - 2026-11-25: Removed 'quadragen' and the 'where space and time meet' framing (not in the paper). The persistor figure is now the paper's two-bit square with the direction of the cycle.

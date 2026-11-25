@@ -199,6 +199,7 @@ def home(toc):
         cells = "".join(f'<div class="cy-c" style="border-color:{c}"><span class="cy-n cy-m">{n}</span>{t}</div>' for (n, c, _), t in zip(REGS, steps))
         grids += f'<p class="cy-t"><b>{name}</b>, {span}</p><div class="cycle">{cells}</div>'
     square_fig = FIGS["square"](1)
+    yields_fig = FIGS["yields"](2)
     main = f"""<section class="sec row" style="padding-top:96px">
 <div></div>
 <div>
@@ -214,11 +215,13 @@ def home(toc):
 </div><div></div></div><div class="row"><div></div><div class="cywrap">{grids}<p class="note" style="margin-top:6px">Encounter, with both operations latent, is not idle: the system is no longer gathering or building, because it is in contact. Between each regime and the next, exactly one of the two operations switches. After Conservation the round closes, and what it releases becomes the material of the next Potentiality.</p></div><div></div></div><div class="row"><div></div><div>
 <p style="margin-top:24px"><a href="/theory/">How it works, step by step →</a></p>''')}
 {section("Why this order and no other", f'''<p class="big">The order of the regimes is not observed and then named. It follows from the two operations.</p>
-<p>Write each regime as two bits, hold first and cross second, with 1 for active and 0 for latent. The four regimes become the four corners of a square. Each corner is joined to the two corners that differ from it by one switch, and not to the corner opposite, which would need both operations to switch at once.</p>
+<p>Hold and cross run as two waves of the same period, a quarter turn apart. Write each regime as two bits, hold first and cross second, with 1 for active and 0 for latent, and the four regimes become the corners of a square. Because the waves are a quarter turn apart, the cycle crosses one midline at a time: each step switches one operation, never both.</p>
 {square_fig}
-<p>A cycle has to pass through all four regimes and come back. On the square there is only one path that does this: round the edge. Any other order would switch both operations in at least one step, which, in the paper's words, &ldquo;skips a regime instead of passing through it&rdquo;. So the steps alternate, hold then cross then hold then cross.</p>
+<p>What a cycle produces is the area its loop encloses on this square. Going once round, one switch at a time, encloses all of it. A shortcut across the diagonal, where both operations switch at once, skips a regime and encloses half. An order that crosses its own path encloses nothing, and the same loop run backwards consumes what the forward loop produces. Of the six orders that visit all four regimes, only one produces the full amount.</p>
+{yields_fig}
+<p>The loop runs this way round because hold leads cross. Hold is what the system has accumulated, and cross is what flows out across its boundary. What flows out lowers what is held, so the flow always turns a quarter cycle after the stock.</p>
 <p>A second argument, independent of the first, gives the same order. Each regime produces what the next one consumes. Potentiality gathers the material that Construction builds from. Construction delivers the forms that Encounter brings into contact. Encounter leaves the outcomes that Conservation keeps, and Conservation releases the material the next Potentiality gathers.</p>
-<p>This is also where the theory is most exposed. A persisting system seen to switch both operations at once, cutting across the square, would disprove it.</p>
+<p>These are derivations, small calculations on the two operations, not measurements. Any two quantities that rise and fall a quarter turn apart pass through four regimes in this order, so seeing four regimes is not evidence on its own. What a measurement can test is the direction. A persisting system that runs the loop the other way round, or that switches both operations at once, would break the account.</p>
 <p><a href="/theory/#s4">Why this order, in full →</a></p>''')}
 {section("What it is for", '''<p class="big">Its first use is reading where a system is stuck. Because the order is fixed, a system that stops running stops at a particular threshold. You can ask which regime it is in, which threshold it cannot cross, and what has to be in place underneath before it can.</p>
 <p>That reading works the same way in a cell, a team or a market, which gives it two further uses.</p>

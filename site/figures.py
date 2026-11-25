@@ -237,6 +237,47 @@ def square(n):
     return fig(body, "The four regimes as two bits, hold first and cross second (1 is active, 0 is latent). The cycle runs clockwise around the square: Potentiality, Construction, Encounter, Conservation. Each step switches one bit, so it never crosses the diagonal.", n)
 
 
+def yields(n):
+    """What one round produces: the area its loop encloses, W = loop integral of hold d(cross), computed from the bits."""
+    BITS = [(1, 1), (0, 1), (0, 0), (1, 0)]  # (hold, cross) for Potentiality, Construction, Encounter, Conservation
+    def work(path):
+        return sum(BITS[a][0] * (BITS[b][1] - BITS[a][1]) for a, b in zip(path, path[1:] + path[:1])) + \
+            sum(0.5 * (BITS[b][0] - BITS[a][0]) * (BITS[b][1] - BITS[a][1]) for a, b in zip(path, path[1:] + path[:1]))
+    panels = [([0, 1, 2, 3], "Once round, one switch at a time"),
+              ([0, 1, 2], "Both switch at once"),
+              ([0, 3, 2, 1], "The same loop, run backwards")]
+    W, H, side, gap, x0, y0 = 760, 300, 160, 90, 50, 46
+    out = []
+    for k, (path, title) in enumerate(panels):
+        ox = x0 + k * (side + gap)
+        P = lambda i: (ox + (0 if BITS[i][0] else side), y0 + (0 if BITS[i][1] else side))
+        w = work(path)
+        pts = " ".join(f"{P(i)[0]},{P(i)[1]}" for i in path)
+        out.append(f'<rect x="{ox}" y="{y0}" width="{side}" height="{side}" fill="none" stroke="{LINE}" stroke-width="1"/>')
+        out.append(f'<polygon points="{pts}" fill="{INK if w > 0 else PAPER}" fill-opacity="{0.10 if w > 0 else 1}" stroke="none"/>')
+        if w < 0:
+            out.append(f'<pattern id="hatch{k}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="{FAINT}" stroke-width="1.2"/></pattern>'
+                       f'<polygon points="{pts}" fill="url(#hatch{k})"/>')
+        for a, b in zip(path, path[1:] + path[:1]):
+            (xa, ya), (xb, yb) = P(a), P(b)
+            out.append(f'<line x1="{xa}" y1="{ya}" x2="{xb}" y2="{yb}" stroke="{INK}" stroke-width="1.6"/>')
+            mx, my = (xa + xb) / 2, (ya + yb) / 2
+            ang = math.degrees(math.atan2(yb - ya, xb - xa))
+            out.append(f'<path d="M-7 -6 L7 0 L-7 6 Z" fill="{INK}" transform="translate({mx:.1f} {my:.1f}) rotate({ang:.1f})"/>')
+        for i, (name, col) in enumerate(REG):
+            x, y = P(i)
+            on = i in path
+            out.append(f'<circle cx="{x}" cy="{y}" r="6.5" fill="{col if on else PAPER}" stroke="{col}" stroke-width="1.6"/>')
+        label = {1.0: "+1", 0.5: "\u00bd", -1.0: "\u22121", 0.0: "0"}.get(w, f"{w:g}")
+        out.append(f'<text x="{ox + side/2}" y="{y0 + side + 48}" font-size="26" text-anchor="middle" fill="{INK}">{label}</text>')
+        out.append(f'<text x="{ox + side/2}" y="{y0 + side + 74}" font-size="14" text-anchor="middle" fill="{MUTED}">{title}</text>')
+    body = svg(W, H, "".join(out), "Three loops on the hold and cross square: once round encloses the whole square, plus one; a diagonal shortcut encloses half; the reverse loop encloses minus one.")
+    cap = ("What one round produces, read as the area its loop encloses on the square of Figure 1. "
+           "Once round, one switch at a time, encloses the whole square. A shortcut across the diagonal, where both operations switch at once, skips Conservation and encloses half. "
+           "The same loop run backwards encloses the whole square with the opposite sign: it consumes. The orders not shown cross their own path and enclose nothing.")
+    return fig(body, cap, n)
+
+
 FIGS = {"waves": waves, "phase": phase, "dimensions": dimensions, "order": order,
         "closure": closure, "recursion": recursion, "five": five, "square": square}
 
@@ -270,3 +311,4 @@ def lineage(n):
 
 
 FIGS["lineage"] = lineage
+FIGS["yields"] = yields
