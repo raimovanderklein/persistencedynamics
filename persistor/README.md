@@ -1,6 +1,6 @@
 # The persistor
 
-**Everything that persists is a persistor.** A cell, a flame, an immune response, a memory, a team, an institution: anything distinct enough to be given a name keeps its shape the same way. It runs one cycle that creates the structure for its next cycle to build on. A persistor is a thing together with that cycle: a cell is a persistor because it runs it, and stops being one when it stops. The persistor is the unit of Persistence Dynamics.
+**Anything that persists by running is a persistor.** A cell, a flame, an immune response, a team, an institution: each keeps its shape the same way. It runs one cycle that creates the structure for its next cycle to build on. A persistor is a thing together with that cycle: a cell is a persistor because it runs it, and stops being one when it stops. The persistor is the unit of Persistence Dynamics.
 
 It is a large claim. It says that what lasts, at every scale, is built from one repeating unit. The theory is set up so that the claim can be tested and could fail: [how it could be wrong](../theory/09-how-it-could-be-wrong.md).
 

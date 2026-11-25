@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- 2026-11-25: Lineage adds Stafford Beer (Viable System Model, recursion theorem), and a 'Working alongside' section with Friston, Kauffman, and Cronin and Walker's assembly theory. Persistor claim worded as in the v2 paper draft: anything that persists by running is a persistor.
 - 2026-11-25: Removed 'quadragen' and the 'where space and time meet' framing (not in the paper). The persistor figure is now the paper's two-bit square with the direction of the cycle.
 - 2026-11-25: Site rebuilt around a newcomer's journey: home asks why anything lasts, states the persistor claim, walks an immune response and a neuron through the four regimes, says what the theory is for and who is behind it. The persistor page leads; the theory page is plain-language first, uses interactive figures once, and ends with how the theory could be wrong (paper §11). New About page links Encounter and the Zenodo paper. Canon-only axioms, sixteen positions and standing/arriving axes removed from the site.
 - 2026-11-25: One name: persistor. Alias lists for Change Unit and Quadragen removed; quadragen named only where its geometric form is drawn.

@@ -206,7 +206,7 @@ def home(toc):
 </div>
 <div></div>
 </section>
-{section("Everything that persists is a persistor", '''<p class="big">Anything distinct enough to be given a name keeps its shape the same way: it runs one cycle that creates the structure for its next cycle to build on.</p>
+{section("Anything that persists by running is a persistor", '''<p class="big">A cell, a flame, an immune response, a team: each keeps its shape the same way. It runs one cycle that creates the structure for its next cycle to build on.</p>
 <p>That cycle is the <b>persistor</b>, the unit of the theory. Persistors sit inside persistors, from a molecule to an institution. It is a large claim, and the theory is built so that it can be tested and could fail.</p>
 <p><a href="/persistor/">The persistor →</a></p>''')}
 {section("Two operations, four regimes, one order", f'''<p>A persistor does two things. It <b>holds</b>: it keeps what it has gathered. It <b>crosses</b>: it reaches beyond itself to engage something else. At any moment each operation is either active or latent. That gives four combinations, the four <b>regimes</b>, and a persistor always runs through them in the same order. Here is the same cycle in two systems that run at very different speeds.</p>
@@ -219,7 +219,7 @@ def home(toc):
 </ol>''')}
 {section("Who", '''<p>Persistence Dynamics is developed by Raimo van der Klein at <a href="https://encounter.bio">Encounter</a>, which applies it to cancer. It was first published as a preprint on <a href="https://doi.org/10.5281/zenodo.20415561">Zenodo</a> in May 2026. It builds on a line of thinkers from Walter Cannon to C. S. Holling: <a href="/lineage/">what came before</a>.</p>
 <p><a href="/about/">About the author and the paper →</a></p>''')}"""
-    write("/", page("/", "Persistence Dynamics", "Why does anything last? Persistence Dynamics: everything that persists is a persistor, one cycle of four regimes in a forced order that creates the structure for the next.", main))
+    write("/", page("/", "Persistence Dynamics", "Why does anything last? Persistence Dynamics: anything that persists by running is a persistor, one cycle of four regimes in a forced order that creates the structure for the next.", main))
 
 
 def main():
@@ -242,7 +242,7 @@ def main():
         "# Persistence Dynamics\n\n> A theory of what makes things last. Two operations (hold, cross), each active or latent, give four regimes "
         "(Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the persistor, "
         "a holon in Koestler's sense: one cycle that creates the structure for the next. Every closed cycle is one part of a larger one.\n\n"
-        f"- [The persistor]({SITE}/persistor/): the unit of the theory; everything that persists is a persistor\n- [The theory]({SITE}/theory/): how a persistor works, in eight steps, and how it could be wrong\n"
+        f"- [The persistor]({SITE}/persistor/): the unit of the theory; anything that persists by running is a persistor\n- [The theory]({SITE}/theory/): how a persistor works, in eight steps, and how it could be wrong\n"
         f"- [What came before]({SITE}/lineage/): the traditions the theory builds on\n- [About]({SITE}/about/): Raimo van der Klein, Encounter, and the paper (Zenodo, doi:10.5281/zenodo.20415561)\n")
     (OUT / "404.html").write_text(page("/404/", "Not found", "Page not found.",
         '<section class="sec row"><div></div><div><h1 class="thesis">This page does not persist.</h1>'

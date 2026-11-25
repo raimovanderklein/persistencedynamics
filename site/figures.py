@@ -248,6 +248,7 @@ def lineage(n):
             ("1952", "Ashby", "the homeostat", "the regime types"),
             ("1967", "Koestler", "the holon", "the persistor"),
             ("1968", "Bertalanffy", "open systems", "hold and cross"),
+            ("1972", "Beer", "the viable system", "cycles inside cycles"),
             ("1977", "Prigogine", "dissipative structures", "the persisting system"),
             ("1980", "Maturana, Varela", "autopoiesis", "closure"),
             ("1986", "Holling", "the adaptive cycle", "nested regimes")]
@@ -264,7 +265,7 @@ def lineage(n):
         out.append(f'<text x="{W-20}" y="{y}" text-anchor="end" font-size="16" fill="{INK}">{pd}</text>')
         if i:
             out.append(f'<line x1="40" y1="{y-rh+9}" x2="{W-20}" y2="{y-rh+9}" stroke="{HAIR}"/>')
-    body = svg(W, H, "".join(out), "Nine predecessors and the part of Persistence Dynamics each one feeds.")
+    body = svg(W, H, "".join(out), "Ten predecessors and the part of Persistence Dynamics each one feeds.")
     return fig(body, "Where each tradition connects. Each line runs from an idea to the part of the theory it lives on in.", n)
 
 
