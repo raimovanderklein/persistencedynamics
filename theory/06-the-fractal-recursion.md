@@ -1,11 +1,9 @@
-# The fractal recursion
+# Cycles inside cycles
 
-A closed cycle does not stand alone. Seen from one level up, a closed cycle is a single axis: it has collapsed into one directed line. Two such axes cross to make the cycle at the next level. Seen from one level down, every axis of a cycle is itself a closed four-regime cycle.
+A closed cycle does not stand alone. This is the persistor seen from outside. Seen from one level up, a closed cycle is no longer a cycle but a single line, one axis that pulses between latent and active in the direction the cycle ran. Two such axes, from two closed cycles, cross to make the cycle at the next level. Seen from one level down, every axis of a cycle is itself a closed four-regime cycle.
 
 <!-- fig:recursion -->
 
-Two consequences follow. First, every persisting system is a stack: a cell inside a tissue inside an organism inside an ecosystem. A system with nothing above it has nowhere to hand its closure forward, and a system with nothing below it has nothing to load from.
+A cycle has two dimensions but hands only one of them up. The one it hands up is **carried**; the other stays at its own level and is **contained**. For a cycle of radius *R*, the two always satisfy carried² + contained² = *R*². A cycle that runs its full round has *R* = 1. A cycle that falls short has *R* < 1, and the gap is its closure deficit.
 
-Second, closure turns activity into substrate. While a child cycle runs, it is its parent's substrate in motion. Once it closes, what it leaves behind is part of what the parent is made of. That is why mature systems differ from young ones: their substrate is the accumulated residue of every cycle that ever closed inside them.
-
-Across one level the two axes obey a conservation law, carried² + contained² = R², where *carried* is the part handed up and *contained* is the part that stays at its own level. The recursion has no outermost and no innermost level. The theory does not need a top or a bottom, only that the recursion is the same at every level.
+While a cycle runs, it is means: it works for the cycle that contains it. Once it closes, what it leaves behind becomes part of what that larger cycle is made of, its identity. This is why a mature system differs from a young one: it is built from the residue of every cycle that ever closed inside it. The recursion has no top and no bottom. The theory only needs it to be the same at every level.

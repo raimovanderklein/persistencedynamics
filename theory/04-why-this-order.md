@@ -1,11 +1,11 @@
 # Why this order
 
-The four regimes run in one sequence: Potentiality, Construction, Encounter, Conservation, and back to Potentiality. The order is forced, not chosen.
+The four regimes always run in one sequence: Potentiality, Construction, Encounter, Conservation, and back to Potentiality. The order is forced, not chosen, and two independent arguments arrive at it.
 
-Two arguments lead to the same order. The first is combinatorial. Write each regime as two bits, hold first and cross second, with 1 for active and 0 for latent. Each step of the cycle flips exactly one bit, and the steps alternate between hold and cross. On two bits this is the only closed path that flips one bit at a time. It is a Gray code.
+The first is combinatorial. Write each regime as two bits, hold first and cross second, with 1 for active and 0 for latent. A system can flip only one operation at a time, so each step changes exactly one bit. On two bits there is only one closed path that does this: the Gray code.
 
 <!-- fig:order -->
 
-The second argument is substrate matching. Each regime produces what the next one consumes. Potentiality releases the gathered material that Construction builds from. Construction delivers the finished form that Encounter puts into contact. Encounter leaves the outcomes that Conservation keeps or releases. Conservation releases the material that the next Potentiality gathers.
+The second is substrate matching: each regime produces what the next one consumes. Potentiality releases the material that Construction builds from. Construction delivers the finished forms that Encounter brings into contact. Encounter leaves outcomes that Conservation stabilises and stores. Conservation releases the material that the next Potentiality gathers.
 
-The transitions are not gradual. Each is a threshold: a discrete moment where one bit flips, one regime's work commits and the next regime's work begins. There are four thresholds, one per regime boundary. They are why the cycle is a cycle rather than a continuous slide. The cycle has rhythm because it has thresholds.
+Each step is a threshold, not a slide: a discrete, irreversible moment where one bit flips, one regime's work commits and the next begins. There are four, one per regime boundary, and the cycle has rhythm because it has thresholds. How long a threshold takes to cross depends on what is supplied to it, not on an internal clock. So the time a system spends between two regimes mixes the regime's own duration with the time spent loading the next threshold. Separating the two is open experimental work.

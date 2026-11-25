@@ -70,3 +70,12 @@ strong,b{font-weight:600;color:var(--ink)}
  .sec{padding-top:56px}
  .head nav{gap:18px;font-size:17px}
 }
+.h2{font-size:32px;line-height:1.2;margin:0 0 18px}
+.big{font-size:25px;line-height:1.38;color:var(--ink)}
+.cywrap{grid-column:2 / 4;min-width:0}
+.cy-t{margin:28px 0 10px;font-size:17px;color:var(--soft)}
+.cycle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px;font-size:16px;line-height:1.5}
+.cy-c{border-top:3px solid;padding-top:10px}
+.cy-n{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+@media (max-width:1000px){.cywrap{grid-column:1 / -1}.cycle{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}}
+@media (max-width:560px){.cycle{grid-template-columns:1fr}}

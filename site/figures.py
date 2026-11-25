@@ -108,8 +108,8 @@ def dimensions(n):
     ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
     out.append(f'<text transform="translate({cx+95*ca+8:.1f} {cy+95*sa-8:.1f}) rotate({ang:.1f})" text-anchor="middle" font-size="14" font-style="italic" fill="{INK}">transactional · space</text>')
     out.append(f'<text transform="translate({cx-95*ca-8:.1f} {cy+95*sa-8:.1f}) rotate({-ang:.1f})" text-anchor="middle" font-size="14" font-style="italic" fill="{INK}">generational · time</text>')
-    spots = [(a + 18, t + 32, "start", "receives"), (b - 18, t + 32, "end", "spends"),
-             (b - 18, u - 22, "end", "gives"), (a + 18, u - 22, "start", "carries forward")]
+    spots = [(a + 18, t + 32, "start", "takes in"), (b - 18, t + 32, "end", "spends"),
+             (b - 18, u - 22, "end", "gives out"), (a + 18, u - 22, "start", "carries forward")]
     for (x, y, al, verb), (name, col) in zip(spots, REG):
         sq = x if al == "start" else x - 10
         out.append(f'<rect x="{sq}" y="{y-11}" width="10" height="10" fill="{col}"/>')
@@ -117,7 +117,7 @@ def dimensions(n):
         out.append(f'<text x="{tx}" y="{y}" text-anchor="{al}" font-size="16" fill="{INK}">{name}</text>')
         out.append(f'<text x="{x}" y="{y+20}" text-anchor="{al}" font-size="13.5" font-style="italic" fill="{SOFT}">{verb}</text>')
     body = svg(W, H, "".join(out), "The transactional dimension joins Potentiality and Encounter; the generational dimension joins Construction and Conservation.")
-    return fig(body, "The two crossed dimensions. The transactional dimension (solid) joins Potentiality, which receives, to Encounter, which gives. The generational dimension (dashed) joins Construction, which spends, to Conservation, which carries forward.", n)
+    return fig(body, "The two crossed dimensions. The transactional dimension (solid) joins Potentiality, which takes in, to Encounter, which gives out. The generational dimension (dashed) joins Construction, which spends, to Conservation, which carries forward.", n)
 
 
 def order(n):
@@ -214,8 +214,8 @@ def five(n):
         y = base - (i + 1) * h
         out.append(f'<rect x="{x}" y="{y}" width="{W-60-x}" height="{h}" fill="none" stroke="{INK if i == 3 else LINE}" stroke-width="{1.6 if i == 3 else 1}"/>')
         out.append(f'<text x="{x+14}" y="{y+24}" font-size="16" fill="{INK}">{i+1}. {nm}</text>')
-    body = svg(W, H, "".join(out), "Five dimensions stacked: identity, other, occurrence, closure, recursion.")
-    return fig(body, "The five dimensions build on each other. Closure, the fourth, is where a single round becomes a cycle.", n)
+    body = svg(W, H, "".join(out), "Five conditions stacked: identity, other, occurrence, closure, recursion.")
+    return fig(body, "The five conditions build on each other. Closure, the fourth, is where a single round becomes a cycle.", n)
 
 
 def quadragen(n):
@@ -233,7 +233,7 @@ def quadragen(n):
     c = s0 + s / 2
     out.append(f'<circle cx="{c}" cy="{40+s/2}" r="6" fill="{INK}"/>')
     body = svg(W, H, "".join(out), "The quadragen: four faces of one moment, around the crossing of two dimensions.")
-    return fig(body, "The quadragen. The four regimes are four faces of one moment, around the point where the two dimensions cross.", n)
+    return fig(body, "The quadragen. At one instant a persistor has four faces, one per regime, around the point where space and time cross. Over time the faces come in turn.", n)
 
 
 FIGS = {"waves": waves, "phase": phase, "dimensions": dimensions, "order": order,

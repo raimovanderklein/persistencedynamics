@@ -12,7 +12,7 @@ Persistence Dynamics stands on work that approached the same question from many 
 
 **W. Ross Ashby**, *Design for a Brain* (1952), built the homeostat, a machine that finds and keeps its own stability. It gave the fourth regime type its name.
 
-**Arthur Koestler**, *The Ghost in the Machine* (1967), coined the **holon**: everything that persists is at once a whole and a part, with a self-assertive and an integrative tendency. The persistor is a holon whose two tendencies are hold and cross, and the fractal recursion is Koestler's hierarchy of holons made exact.
+**Arthur Koestler**, *The Ghost in the Machine* (1967), coined the **holon**: everything that persists is at once a whole and a part, with a self-assertive and an integrative tendency. The persistor is a holon whose two tendencies are hold and cross, and the recursion of cycles inside cycles is Koestler's hierarchy of holons made exact.
 
 **Ludwig von Bertalanffy**, *General System Theory* (1968), described living things as open systems that stay the same by continuously exchanging matter with their environment. Hold and cross are the two faces of that exchange.
 
