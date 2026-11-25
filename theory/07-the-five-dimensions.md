@@ -1,13 +1,13 @@
-## The five dimensions
+# The five dimensions
 
-The framework has five structural dimensions, and they emerge in a forced order. Each dimension depends on the prior ones being in place.
+A persisting system can be read on five dimensions. They are constructive, not independent: each one needs the ones below it to be in place.
 
-1. **Identity** — there is a self that coheres enough to be held versus dropped. Forced by the hold operation needing something to hold.
-2. **Other** — there is something beyond the self that the system can cross into. Forced by the cross operation needing a target.
-3. **Occurrence** — engagement actually happens. The active-versus-latent distinction is real, not just a potential. Forced by the axiom that motion exists.
-4. **Closure** — the engagement closes back on itself, giving back what it received and producing what the next round will run on. This is the dimension that makes one full cycle possible. The closure equation *d² + d = 1* is dimension 4 made formal.
-5. **Recursion** — the closed cycle is itself one element of a larger cycle, and contains smaller cycles inside it. This is the dimension that makes the stack operational.
+<!-- fig:five -->
 
-The five are constructive, not orthogonal. They build on each other rather than spanning an independent space. A system at dimension 3 can occur but cannot complete one full cycle; a system at dimension 4 can complete cycles but reads itself as a singular event rather than as one tick of a larger clock; a system at dimension 5 has the full stack operational.
+1. **Identity.** There is a self coherent enough to be held. Hold needs something to hold.
+2. **Other.** There is something beyond the self to cross into. Cross needs a target.
+3. **Occurrence.** The engagement actually happens: the difference between active and latent is real.
+4. **Closure.** The engagement closes back on itself and produces what the next round runs on. The equation *d*² + *d* = 1 is this dimension in formal terms.
+5. **Recursion.** The closed cycle is one part of a larger cycle and contains smaller ones.
 
-The order matters because failure cascades downward. A system that loses identity loses everything above it: other, occurrence, closure, recursion. A system that loses closure but keeps the lower three has occurrence without completion, which is the structural signature of work that never finishes. The clinical reading is to identify the lowest unclosed dimension and address it first, because work at any higher dimension bounces if the lower substrate is unstable.
+Failure runs downward. A system that loses identity loses everything above it. A system that loses closure but keeps the first three dimensions has occurrence without completion: work that never finishes. To read a system, find the lowest dimension that is not in place. Work on any higher dimension will not hold until that one does.

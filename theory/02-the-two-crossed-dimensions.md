@@ -1,9 +1,11 @@
-## The two crossed dimensions
+# The two crossed dimensions
 
 The four regimes sit on two dimensions that cross at the centre of the cycle.
 
-The **transactional dimension** runs from Potentiality to Encounter. It is the axis of giving and taking. Potentiality receives; Encounter gives. The dimension spans space, because giving and taking are operations that happen between things that occupy different locations. Whatever the system has accumulated at Potentiality is what it brings to Encounter; whatever Encounter does is what Potentiality eventually loads from again, one cycle later.
+The **transactional dimension** runs from Potentiality to Encounter. It is the dimension of giving and taking: Potentiality receives and Encounter gives. It spans space, because giving and taking happen between things in different places.
 
-The **generational dimension** runs from Construction to Conservation. It is the axis of loss and birth. Construction is what is spent; Conservation is what carries forward. The dimension spans time, because spending and carrying-forward are operations that happen between earlier and later states of the same continuing thing. Construction commits the system to one form at the cost of all the others it could have built; Conservation holds the form's gain and lets the spent material go.
+The **generational dimension** runs from Construction to Conservation. It is the dimension of loss and birth: Construction spends and Conservation carries forward. It spans time, because spending and carrying forward happen between an earlier and a later state of the same system.
 
-The two dimensions cross at the centre of the cycle, perpendicular to each other. Every regime sits at the intersection of one transactional position and one generational position.
+<!-- fig:dimensions -->
+
+Every regime sits where one position on the transactional dimension meets one position on the generational dimension. The layout is fixed: Potentiality top left, Construction top right, Encounter bottom right, Conservation bottom left.

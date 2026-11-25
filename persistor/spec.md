@@ -260,8 +260,6 @@ These are the open questions, most load-bearing first.
 7. **Three things sit outside the axioms:** why there are exactly two operations, time as a fractal ratio, and the origin of the role asymmetry between Construction and Encounter.
 8. **The particle/wave reading** (a cycle collapsed onto one diameter or the other) is consistent with every test so far and not demonstrated.
 
-**Falsified, and kept on the record:** the 1 : φ : φ² : φ³ residence cascade as an empirical universal, and the "three-circle vertex" strong form. Details are in [HISTORY.md](HISTORY.md).
-
 ---
 
 *Cite as: van der Klein, R. (2026). The persistor: specification. Persistence Dynamics. https://persistencedynamics.com*

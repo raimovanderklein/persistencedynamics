@@ -1,58 +1,50 @@
 # The persistor
 
-**A persistor is the unit of change. It is one cycle that creates the structure for the next cycle to build on.** Everything that persists is a persistor. A cell, an immune response, a team, a company and a career are all persistors, and every persistor contains persistors and sits inside one.
+**A persistor is one cycle that creates the structure for the next cycle to build on.** It is the unit of Persistence Dynamics: the model of one unit of change. A cell, an immune response, a team and an organisation are each a persistor, and every persistor contains persistors and sits inside one.
 
-The same concept appears under three names. **Persistor** is the name used on this site. **Change Unit** and **Quadragen** are the same concept in other shapes.
+In Arthur Koestler's word, a persistor is a **holon**: a whole to the parts below it and a part of the whole above it. Koestler gave every holon two tendencies, a self-assertive one that keeps it whole and an integrative one that joins it to something larger. In Persistence Dynamics these are the two operations, hold and cross, and the persistor adds what the holon left open: the order in which the two take turns, and the condition under which a round closes.
+
+The same concept goes by three names. **Persistor** is the name used here. **Change Unit** names it as a unit of change, and **Quadragen** names its geometric form, the four-faced square.
 
 ## One moment, four faces
 
-A persistor is one moment in two dimensions, with four faces, that iterates as a cycle. Two dimensions cross at one point: the **transactional** dimension (giving and taking, which spans space) and the **generational** dimension (loss and birth, which spans time). At the crossing, four things are true at once. They are not four events. They are four faces of one event, and the cycle is how that moment repeats.
+A persistor is one moment in two dimensions, with four faces, and the moment repeats as a cycle. The transactional dimension and the generational dimension cross at one point. At the crossing, four things are true at once: the four regimes. They are not four events but four faces of one event, and the cycle is how that event repeats.
 
-The four faces are the four regimes of [the theory](../theory/03-the-four-regimes.md):
-
-| Regime | Hold | Cross | Type | What it does |
-| --- | --- | --- | --- | --- |
-| Potentiality | active | active | Capacitor | Loads to a threshold, then releases |
-| Construction | latent | active | Factory | Selects one form and builds it |
-| Encounter | latent | latent | Reactor | The form meets what it was built for |
-| Conservation | active | latent | Homeostat | Keeps what survived and releases the rest |
+<!-- fig:quadragen -->
 
 ## Five axioms
 
-Everything structural follows from five axioms. φ is not one of them. It appears when the seed closes.
-
-1. **Hold and cross.** A persistor has two operations at its boundary: hold (keep self) and cross (engage other).
-2. **Each on or off.** Each operation is active or latent, so a persistor has two bits.
-3. **Recursive.** Every persistor contains persistors and sits inside one, with the same two bits at every scale.
+1. **Hold and cross.** A persistor has two operations at its boundary: hold, which keeps the self, and cross, which engages the other.
+2. **Each active or latent.** Each operation is active or latent, so a persistor has two bits.
+3. **Recursive.** Every persistor contains persistors and sits inside one. The same two bits appear at every level.
 4. **Mass conserved.** Total mass across a closed system of persistors is constant.
 5. **Motion exists.** Cycles run, gradients drive flows, and crossing engages.
 
-## Four thresholds
+φ is not an axiom. It appears when the cycle closes across levels.
 
-Between each pair of regimes is a threshold, where exactly one bit flips:
+## The formal core
+
+Within one level a persistor is two coupled oscillations a quarter of a period apart. With θ the phase of the cycle,
+
+<!-- eq: hold = (1 − cos <i>θ</i>) / 2, &nbsp;&nbsp;&nbsp; cross = (1 + sin <i>θ</i>) / 2 -->
+
+The trajectory is a circle. The four regimes are its quadrants and the four thresholds are its cardinal points. Each regime spans a quarter of the circle and holds four positions, which gives sixteen positions in all. Within one level nothing is lost in a round; loss happens only across levels.
+
+Across levels, closure fixes the ratio between one level and the next:
+
+<!-- eq: <i>d</i>² + <i>d</i> = 1, &nbsp; so &nbsp; <i>d</i> = 1/φ ≈ 0.618 -->
+
+## Four thresholds
 
 | Threshold | Transition | Bit that flips |
 | --- | --- | --- |
-| Activation | Potentiality to Construction | hold |
-| Egress | Construction to Encounter | cross |
-| Drain | Encounter to Conservation | hold |
-| Suppression | Conservation to Potentiality | cross, and it passes a generation |
+| Activation | Potentiality to Construction | hold goes latent |
+| Egress | Construction to Encounter | cross goes latent |
+| Drain | Encounter to Conservation | hold becomes active |
+| Suppression | Conservation to Potentiality | cross becomes active |
 
-Three thresholds happen inside one generation. The fourth, Suppression, is where the ending cycle's Conservation becomes the new cycle's Potentiality. **Without closure there is no persistor, and the closure is the seed of the next one.**
+Activation, Egress and Drain happen within one round. Suppression hands over to the next round: the Conservation of one round becomes the Potentiality of the next. **Without closure there is no persistor, and the closure is the seed of the next one.**
 
 ## How persistors nest
 
-- **A closed cycle becomes one axis of the level above.** Closure drops a dimension and hands one diameter upward, and the other stays contained at its own level (R1, R2).
-- **The axis keeps its arrow.** The cycle runs one way, Potentiality to Construction to Encounter to Conservation, and the axis it becomes is directed too (R3).
-- **Every persistor is built from two cycles at different scales.** A slower **holding cycle** above gives it identity and the field it runs in. A faster **crossing cycle** below drives its traversal (R12).
-- **Across levels, carried² + contained² = R².** The conservation law holds when the child cycle closes. When it does not close, the deficit accumulates upward (R7).
-
-## How sure each part is
-
-The definition, the axioms, the forced order and the recursion rules are structural. The quantitative claims have different statuses, and some have been falsified. Each one is listed in [claims.md](../claims.md) with its evidence.
-
-## Read further
-
-- [spec.md](spec.md) is the full specification: axioms, regime types, thresholds, the formal core, recursion rules R1 to R13, the five dimensions, the three speeds, the substrate economy, the sixteen verbs, and the open seams. Every statement carries its status.
-- [HISTORY.md](HISTORY.md) holds the dated corrections and tests.
-- [archive/](archive/) holds the May 2026 working reference.
+A closed persistor becomes one axis of the persistor one level up, and the axis keeps the direction of the cycle it came from. Every persistor runs between two others: a slower **holding cycle** one level up, which gives it identity and the field it runs in, and a faster **crossing cycle** one level down, which drives it round.

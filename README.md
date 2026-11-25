@@ -4,7 +4,7 @@
 
 The unit of the theory is the **persistor**: one cycle that creates the structure for the next cycle to build on. It is the conceptual model of one unit of change, and is also called the Change Unit or Quadragen.
 
-Site: [persistencedynamics.com](https://persistencedynamics.com) (coming).
+Site: [persistencedynamics.com](https://persistencedynamics.com).
 
 ## What is here
 
