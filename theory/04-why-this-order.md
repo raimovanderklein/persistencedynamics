@@ -6,6 +6,6 @@ Two arguments lead to the same order. The first is combinatorial. Write each reg
 
 <!-- fig:order -->
 
-The second argument is about substrate. Each regime produces what the next one consumes. Potentiality releases the gathered material that Construction builds from. Construction delivers the finished form that Encounter puts into contact. Encounter leaves the outcomes that Conservation keeps or releases. Conservation releases the material that the next Potentiality gathers.
+The second argument is substrate matching. Each regime produces what the next one consumes. Potentiality releases the gathered material that Construction builds from. Construction delivers the finished form that Encounter puts into contact. Encounter leaves the outcomes that Conservation keeps or releases. Conservation releases the material that the next Potentiality gathers.
 
-Each step is a threshold, not a slide. There are four: **Activation**, where hold goes latent; **Egress**, where cross goes latent; **Drain**, where hold becomes active again; and **Suppression**, where cross becomes active again. Three thresholds happen within one round. Suppression is different: it hands over to the next round.
+The transitions are not gradual. Each is a threshold: a discrete moment where one bit flips, one regime's work commits and the next regime's work begins. There are four thresholds, one per regime boundary. They are why the cycle is a cycle rather than a continuous slide. The cycle has rhythm because it has thresholds.

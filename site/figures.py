@@ -45,7 +45,7 @@ def waves(n, interactive=False):
     out.append(f'<text x="{X(8):.1f}" y="{Y(hold(8))-10:.1f}" font-size="16" font-style="italic" fill="{INK}">hold</text>')
     out.append(f'<text x="{X(84):.1f}" y="{Y(cross(90))-10:.1f}" font-size="16" font-style="italic" fill="{INK}" text-anchor="end">cross</text>')
     # threshold crossings
-    names = {90: "Activation", 180: "Egress", 270: "Drain", 360: "Suppression"}
+    names = {90: "hold flips", 180: "cross flips", 270: "hold flips", 360: "cross flips"}
     for p, nm in names.items():
         out.append(f'<circle cx="{X(p):.1f}" cy="{Y(.5):.1f}" r="4" fill="{PAPER}" stroke="{INK}" stroke-width="1.5"/>')
         out.append(f'<text x="{X(p):.1f}" y="{bot+28}" text-anchor="{"end" if p == 360 else "middle"}" font-size="13.5" fill="{SOFT}">{nm}</text>')
@@ -56,7 +56,7 @@ def waves(n, interactive=False):
         out.append(f'<circle class="dot-h" cx="{x0}" cy="{Y(1)}" r="5" fill="{INK}"/>')
         out.append(f'<circle class="dot-c" cx="{x0}" cy="{Y(.5)}" r="5" fill="{PAPER}" stroke="{INK}" stroke-width="2"/>')
     body = svg(W, H, "".join(out), "Hold and cross drawn as two waves of the same period, a quarter of a period apart, over one round of the cycle.", "waves")
-    return fig(body, "Hold and cross over one round. Hold (solid) and cross (dashed) are the same wave, a quarter of a period apart. Each operation is active above the midline and latent below it. Each regime is one quarter of the round, and each threshold is the moment one of the two waves crosses the midline.", n)
+    return fig(body, "Hold and cross over one round. Hold (solid) and cross (dashed) are the same wave, a quarter of a period apart. Each operation is active above the midline and latent below it. Each regime is one quarter of the round, and each of the four thresholds is the moment one of the two waves crosses the midline: one bit flips.", n)
 
 
 def phase(n, interactive=False):
@@ -81,15 +81,15 @@ def phase(n, interactive=False):
         out.append(f'<rect x="{sq}" y="{y-10}" width="10" height="10" fill="{col}"/>')
         tx = x + 16 if a == "start" else x - 16
         out.append(f'<text x="{tx}" y="{y}" text-anchor="{a}" font-size="16" fill="{INK}" class="rname" data-i="{i}">{name}</text>')
-    thr = [(c, s0 - 52, "middle", "Activation"), (s1 + 12, cy + 5, "start", "Egress"),
-           (c, s1 + 26, "middle", "Drain"), (s0 - 12, cy + 5, "end", "Suppression")]
+    thr = [(c, s0 - 52, "middle", "hold flips"), (s1 + 12, cy + 5, "start", "cross flips"),
+           (c, s1 + 26, "middle", "hold flips"), (s0 - 12, cy + 5, "end", "cross flips")]
     for x, y, a, nm in thr:
         out.append(f'<text x="{x}" y="{y}" text-anchor="{a}" font-size="13.5" fill="{SOFT}">{nm}</text>')
     for p in (0, 90, 180, 270):
         out.append(f'<circle cx="{PX(hold(p)):.1f}" cy="{PY(cross(p)):.1f}" r="4" fill="{PAPER}" stroke="{INK}" stroke-width="1.5"/>')
     if interactive:
         out.append(f'<circle class="dot-p" cx="{PX(hold(0))}" cy="{PY(cross(0))}" r="7" fill="{INK}"/>')
-    body = svg(W, H, "".join(out), "Hold plotted against cross traces a circle. The four regimes are its quadrants and the four thresholds its cardinal points.", "phase")
+    body = svg(W, H, "".join(out), "Hold plotted against cross traces a circle. The four regimes are its quadrants; at each of the four thresholds one bit flips.", "phase")
     return fig(body, "The same round as a circle. Plot hold (active to the left) against cross (active at the top) and the two waves trace a circle, clockwise. The four regimes are its quadrants, and the four thresholds are the points where it crosses an axis.", n)
 
 
@@ -124,7 +124,7 @@ def order(n):
     W, H = 760, 170
     states = [("1", "1"), ("0", "1"), ("0", "0"), ("1", "0"), ("1", "1")]
     flips = [None, 0, 1, 0, 1]
-    thr = ["Activation", "Egress", "Drain", "Suppression"]
+    thr = ["hold flips", "cross flips", "hold flips", "cross flips"]
     cols = [POT, CON, ENC, COS, POT]
     out = []
     xs = [60 + i * 160 for i in range(5)]

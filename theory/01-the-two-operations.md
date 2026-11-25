@@ -10,4 +10,4 @@ Run in time, hold and cross are two oscillations of the same period, one quarter
 
 ## Hold reads as past, cross reads as future
 
-Hold is what the system has accumulated: its identity, its lineage, its memory, the form it has already built. It is spatial: it keeps something in place. Cross is what the system reaches toward: the meeting that has not yet happened. It is temporal: it carries something forward. Read this way, Potentiality holds the most past while reaching for the most future. Encounter releases both and is pure present. Conservation rebuilds the past while cross stays latent.
+Hold is what the system has accumulated: its identity, its lineage, its memory, the form it has already built. It acts on the time-reversed part of the system's state. Cross is what the system reaches toward: the meeting that has not yet happened. It acts on the time-forward part, the gradient toward the next configuration. Read this way, Potentiality holds the most past while reaching for the most future. Encounter releases both and is pure present. Conservation rebuilds the past while cross stays latent.

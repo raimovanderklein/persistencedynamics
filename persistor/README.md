@@ -24,11 +24,11 @@ A persistor is one moment in two dimensions, with four faces, and the moment rep
 
 ## The formal core
 
-Within one level a persistor is two coupled oscillations a quarter of a period apart. With θ the phase of the cycle,
+Within one level a persistor is two coupled oscillations a quarter of a period apart. With θ the angular position on the cycle, starting at Potentiality,
 
-<!-- eq: hold = (1 − cos <i>θ</i>) / 2, &nbsp;&nbsp;&nbsp; cross = (1 + sin <i>θ</i>) / 2 -->
+<!-- eq: hold = (1 + cos <i>θ</i>) / 2, &nbsp;&nbsp;&nbsp; cross = (1 + sin <i>θ</i>) / 2 -->
 
-The trajectory is a circle. The four regimes are its quadrants and the four thresholds are its cardinal points. Each regime spans a quarter of the circle and holds four positions, which gives sixteen positions in all. Within one level nothing is lost in a round; loss happens only across levels.
+The trajectory is a circle. The four regimes are its quadrants, and the four thresholds are where it crosses an axis. Each regime spans a quarter of the circle and holds four positions, which gives sixteen positions in all. Within one level nothing is lost in a round; loss happens only across levels.
 
 Across levels, closure fixes the ratio between one level and the next:
 
@@ -36,15 +36,15 @@ Across levels, closure fixes the ratio between one level and the next:
 
 ## Four thresholds
 
-| Threshold | Transition | Bit that flips |
-| --- | --- | --- |
-| Activation | Potentiality to Construction | hold goes latent |
-| Egress | Construction to Encounter | cross goes latent |
-| Drain | Encounter to Conservation | hold becomes active |
-| Suppression | Conservation to Potentiality | cross becomes active |
+| Threshold | Bit that flips |
+| --- | --- |
+| Potentiality to Construction | hold goes latent |
+| Construction to Encounter | cross goes latent |
+| Encounter to Conservation | hold goes active |
+| Conservation to Potentiality | cross goes active |
 
-Activation, Egress and Drain happen within one round. Suppression hands over to the next round: the Conservation of one round becomes the Potentiality of the next. **Without closure there is no persistor, and the closure is the seed of the next one.**
+Each threshold is a discrete event: one bit flips and the next regime begins. At the last one the round closes, and what Conservation releases becomes the material the next Potentiality loads. **Without closure there is no persistor, and the closure is the seed of the next one.**
 
 ## How persistors nest
 
-A closed persistor becomes one axis of the persistor one level up, and the axis keeps the direction of the cycle it came from. Every persistor runs between two others: a slower **holding cycle** one level up, which gives it identity and the field it runs in, and a faster **crossing cycle** one level down, which drives it round.
+A closed persistor becomes one axis of the persistor one level up, and the axis keeps the direction of the cycle it came from. It takes two closed persistors to make the next one. The first to close is the **standing axis**; the second closes into it as the **arriving axis**. The partner decides which of the two diameters is carried up; the other is contained at its own level. While a persistor runs it is means for the one above; once it closes, its residue becomes part of that persistor's identity.
