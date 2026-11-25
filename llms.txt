@@ -1,6 +1,6 @@
 # Persistence Dynamics
 
-> A theory of what makes things last. Two operations (hold, cross), each active or latent, give four regimes (Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the persistor (also Change Unit, Quadragen), a holon in Koestler's sense: one cycle that creates the structure for the next. Every closed cycle is one part of a larger one.
+> A theory of what makes things last. Two operations (hold, cross), each active or latent, give four regimes (Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the persistor, a holon in Koestler's sense: one cycle that creates the structure for the next. Every closed cycle is one part of a larger one.
 
 - [The theory](https://persistencedynamics.com/theory/): seven steps
 - [The persistor](https://persistencedynamics.com/persistor/): the unit, axioms, formal core, thresholds

@@ -2,7 +2,7 @@
 
 **Persistence Dynamics (PD) is a theory of what makes things last.** Anything that uses energy to maintain itself runs one cycle. Two operations, *hold* and *cross*, are each active or latent. That gives four regimes, **Potentiality, Construction, Encounter and Conservation**, which run in one forced order. A round closes when Conservation hands its residue back as the next Potentiality's material. Every closed cycle is one part of a larger cycle, and contains smaller ones.
 
-The unit of the theory is the **persistor**: one cycle that creates the structure for the next cycle to build on. It is the conceptual model of one unit of change, and is also called the Change Unit or Quadragen.
+The unit of the theory is the **persistor**: one cycle that creates the structure for the next cycle to build on. It is the model of one unit of change.
 
 Site: [persistencedynamics.com](https://persistencedynamics.com).
 

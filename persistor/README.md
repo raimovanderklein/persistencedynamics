@@ -4,11 +4,9 @@
 
 In Arthur Koestler's word, a persistor is a **holon**: a whole to the parts below it and a part of the whole above it. Koestler gave every holon two tendencies, a self-assertive one that keeps it whole and an integrative one that joins it to something larger. In Persistence Dynamics these are the two operations, hold and cross, and the persistor adds what the holon left open: the order in which the two take turns, and the condition under which a round closes.
 
-The same concept goes by three names. **Persistor** is the name used here. **Change Unit** names it as a unit of change, and **Quadragen** names its geometric form, the four-faced square.
-
 ## One moment, four faces
 
-A persistor is one moment in two dimensions, with four faces, and the moment repeats as a cycle. The transactional dimension and the generational dimension cross at one point. At the crossing, four things are true at once: the four regimes. They are not four events but four faces of one event, and the cycle is how that event repeats.
+A persistor is one moment in two dimensions, with four faces, and the moment repeats as a cycle. The transactional dimension and the generational dimension cross at one point. At the crossing, four things are true at once: the four regimes. They are not four events but four faces of one event, and the cycle is how that event repeats. Drawn as a square with the four faces at its corners, this is the persistor's geometric form: the quadragen.
 
 <!-- fig:quadragen -->
 

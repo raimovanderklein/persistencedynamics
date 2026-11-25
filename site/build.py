@@ -184,7 +184,7 @@ def home(toc):
 <div>
 <h2 style="font-size:32px;margin-bottom:18px">The persistor</h2>
 <p style="font-size:25px;line-height:1.38;color:var(--ink)">One cycle that creates the structure for the next cycle to build on.</p>
-<p>The persistor is the unit of the theory. In Koestler's word it is a holon: a whole to the parts below it and a part of the whole above it. It is also called the Change Unit, and the Quadragen in its geometric form.</p>
+<p>The persistor is the unit of the theory. In Koestler's word it is a holon: a whole to the parts below it and a part of the whole above it.</p>
 <p><a href="/persistor/">The persistor</a></p>
 </div>
 <div></div>
@@ -234,7 +234,7 @@ def main():
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     (OUT / "llms.txt").write_text(
         "# Persistence Dynamics\n\n> A theory of what makes things last. Two operations (hold, cross), each active or latent, give four regimes "
-        "(Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the persistor (also Change Unit, Quadragen), "
+        "(Potentiality, Construction, Encounter, Conservation) in one forced order. The unit is the persistor, "
         "a holon in Koestler's sense: one cycle that creates the structure for the next. Every closed cycle is one part of a larger one.\n\n"
         f"- [The theory]({SITE}/theory/): seven steps\n- [The persistor]({SITE}/persistor/): the unit, axioms, formal core, thresholds\n"
         f"- [What came before]({SITE}/lineage/): the traditions the theory builds on\n")

@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- 2026-11-25: One name: persistor. Alias lists for Change Unit and Quadragen removed; quadragen named only where its geometric form is drawn.
 - 2026-11-25: Vocabulary aligned with the paper (Zenodo 10.5281/zenodo.20415561). Threshold names Activation, Egress, Drain and Suppression removed (not in the paper); thresholds are named by the bit that flips. Hold and cross read as past and future, not space and time. Closure equation stated as first-order plus second-order reach. Persistor nesting uses standing and arriving axis, carried and contained, means and identity. Persistor wave formula corrected to hold = (1 + cos θ)/2.
 - 2026-11-25: Site reworked to the core of the theory: three pages (the theory, the persistor, what came before). Computed figures in `site/figures.py` (the two waves a quarter out of sync, phase circle, order, closure, recursion, five dimensions, lineage). Text rewritten in one vocabulary; the holon added to the persistor. Serif only, no source links. HISTORY, claims and the spec stay in the repo but are off the site.
 - 2026-11-24: Repo created. Theory imported from v2 (2026-05-27). Persistor canon imported, then rewritten as specification v1.0 (persistor/spec.md), with history in persistor/HISTORY.md. Claims file started. Scope set to Persistence Dynamics only.

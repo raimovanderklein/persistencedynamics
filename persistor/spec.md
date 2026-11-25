@@ -2,8 +2,6 @@
 
 **Version 1.0 · 2026-11-24.** This is the canonical specification of the persistor, the unit of change in Persistence Dynamics. It states what the persistor is, the rules it obeys and how sure each rule is. Dated corrections and test results are in [HISTORY.md](HISTORY.md). The original working reference is kept in [archive/](archive/).
 
-The persistor is also called the **Change Unit** and the **Quadragen**. All three names refer to the same concept in different shapes.
-
 Each statement carries one of these labels:
 
 - **[structural]** follows from the axioms and the definitions
