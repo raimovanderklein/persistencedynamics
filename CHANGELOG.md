@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- 2026-11-25: Home leads with the derivation. New section 'Why this order and no other' shows the two-bit square and states, in the paper's words, why only one operation switches per step, plus the substrate argument and what would disprove it. 'What it is for' now opens with reading where a system is stuck; the vague prediction line is replaced by the paper's numbers (d = 1/φ ≈ 0.618; γT ≈ 1.924 for four levels), marked as conditional on self-similarity.
 - 2026-11-25: Lineage adds Stafford Beer (Viable System Model, recursion theorem), and a 'Working alongside' section with Friston, Kauffman, and Cronin and Walker's assembly theory. Persistor claim worded as in the v2 paper draft: anything that persists by running is a persistor.
 - 2026-11-25: Removed 'quadragen' and the 'where space and time meet' framing (not in the paper). The persistor figure is now the paper's two-bit square with the direction of the cycle.
 - 2026-11-25: Site rebuilt around a newcomer's journey: home asks why anything lasts, states the persistor claim, walks an immune response and a neuron through the four regimes, says what the theory is for and who is behind it. The persistor page leads; the theory page is plain-language first, uses interactive figures once, and ends with how the theory could be wrong (paper §11). New About page links Encounter and the Zenodo paper. Canon-only axioms, sixteen positions and standing/arriving axes removed from the site.

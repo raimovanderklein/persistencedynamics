@@ -198,6 +198,7 @@ def home(toc):
     for name, span, steps in EXAMPLES:
         cells = "".join(f'<div class="cy-c" style="border-color:{c}"><span class="cy-n cy-m">{n}</span>{t}</div>' for (n, c, _), t in zip(REGS, steps))
         grids += f'<p class="cy-t"><b>{name}</b>, {span}</p><div class="cycle">{cells}</div>'
+    square_fig = FIGS["square"](1)
     main = f"""<section class="sec row" style="padding-top:96px">
 <div></div>
 <div>
@@ -212,10 +213,18 @@ def home(toc):
 {section("Two operations, four regimes, one order", f'''<p>A persistor does two things. It <b>holds</b>: it keeps what it has gathered. It <b>crosses</b>: it reaches beyond itself to engage something else. At any moment each operation is either active or latent. That gives four combinations, the four <b>regimes</b>, and a persistor always runs through them in the same order. Here is the same cycle in two systems that run at very different speeds.</p>
 </div><div></div></div><div class="row"><div></div><div class="cywrap">{grids}<p class="note" style="margin-top:6px">Encounter, with both operations latent, is not idle: the system is no longer gathering or building, because it is in contact. Between each regime and the next, exactly one of the two operations switches. After Conservation the round closes, and what it releases becomes the material of the next Potentiality.</p></div><div></div></div><div class="row"><div></div><div>
 <p style="margin-top:24px"><a href="/theory/">How it works, step by step →</a></p>''')}
-{section("What it is for", '''<ol class="steps">
-<li><span>1</span><div><b>One vocabulary across fields.</b> The same four regimes describe a tumour and a market, growth and repair. A finding in one field gets a form that can be read in another.</div></li>
-<li><span>2</span><div><b>A way to read where a system is stuck.</b> Which regime it is in, which threshold it cannot cross, and what has to be in place underneath before it can.</div></li>
-<li><span>3</span><div><b>A theory that can fail.</b> It makes numerical predictions, such as the ratio between nested levels, that measurement can disprove. <a href="/theory/#s8">How it could be wrong</a></div></li>
+{section("Why this order and no other", f'''<p class="big">The order of the regimes is not observed and then named. It follows from the two operations.</p>
+<p>Write each regime as two bits, hold first and cross second, with 1 for active and 0 for latent. The four regimes become the four corners of a square. Each corner is joined to the two corners that differ from it by one switch, and not to the corner opposite, which would need both operations to switch at once.</p>
+{square_fig}
+<p>A cycle has to pass through all four regimes and come back. On the square there is only one path that does this: round the edge. Any other order would switch both operations in at least one step, which, in the paper's words, &ldquo;skips a regime instead of passing through it&rdquo;. So the steps alternate, hold then cross then hold then cross.</p>
+<p>A second argument, independent of the first, gives the same order. Each regime produces what the next one consumes. Potentiality gathers the material that Construction builds from. Construction delivers the forms that Encounter brings into contact. Encounter leaves the outcomes that Conservation keeps, and Conservation releases the material the next Potentiality gathers.</p>
+<p>This is also where the theory is most exposed. A persisting system seen to switch both operations at once, cutting across the square, would disprove it.</p>
+<p><a href="/theory/#s4">Why this order, in full →</a></p>''')}
+{section("What it is for", '''<p class="big">Its first use is reading where a system is stuck. Because the order is fixed, a system that stops running stops at a particular threshold. You can ask which regime it is in, which threshold it cannot cross, and what has to be in place underneath before it can.</p>
+<p>That reading works the same way in a cell, a team or a market, which gives it two further uses.</p>
+<ol class="steps">
+<li><span>1</span><div><b>One vocabulary across fields.</b> A finding in one field gets a form that can be read in another.</div></li>
+<li><span>2</span><div><b>A theory that can fail.</b> Its predictions are numbers. Adjacent nested levels should contract by the same ratio, <i>d</i> = 1/φ ≈ 0.618. A cycling system fitted as a damped oscillator should lose amplitude at γ<i>T</i> ≈ 1.924 per cycle when it has four nested levels. Both hold if the levels are self-similar, and a robust measurement of another value disproves them. <a href="/theory/#s8">How it could be wrong</a></div></li>
 </ol>''')}
 {section("Who", '''<p>Persistence Dynamics is developed by Raimo van der Klein at <a href="https://encounter.bio">Encounter</a>, which applies it to cancer. It was first published as a preprint on <a href="https://doi.org/10.5281/zenodo.20415561">Zenodo</a> in May 2026. It builds on a line of thinkers from Walter Cannon to C. S. Holling: <a href="/lineage/">what came before</a>.</p>
 <p><a href="/about/">About the author and the paper →</a></p>''')}"""
